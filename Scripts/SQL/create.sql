@@ -87,8 +87,7 @@ CREATE TABLE InsuranceClaim (
     FOREIGN KEY (patientPaymentID) REFERENCES PatientPayment(patientPaymentID)
 );
 ALTER TABLE InsuranceClaim 
-ADD CONSTRAINT check_claimAmount 
-CHECK (claimAmount >= 0);
+ADD CONSTRAINT check_claimAmount CHECK (claimAmount >= 0)                   ;
 
 -- Treatment
 CREATE TABLE Treatment (
