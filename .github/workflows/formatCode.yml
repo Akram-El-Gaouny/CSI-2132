@@ -1,5 +1,5 @@
 name: "Format Queries"
-on: workflow_dispatch 
+on: push
 
 jobs:
   test: # make sure the action works on a clean machine without building
