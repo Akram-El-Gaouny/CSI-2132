@@ -81,7 +81,7 @@ CHECK (insuranceAmount >= 0);
 -- InsuranceClaim
 CREATE TABLE InsuranceClaim (
     claimID INTEGER AUTO_INCREMENT,
-        claimAmount NUMERIC(8,2),
+    claimAmount NUMERIC(8,2),
     patientPaymentID INTEGER,
     PRIMARY KEY (claimID),
     FOREIGN KEY (patientPaymentID) REFERENCES PatientPayment(patientPaymentID)
