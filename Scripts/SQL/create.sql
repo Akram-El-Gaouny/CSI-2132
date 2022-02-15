@@ -44,6 +44,19 @@ CREATE TABLE PaymentType (
 );
 -- Appointment
 CREATE TABLE Appointment (
+    appointmentID INTEGER,
+    patientID INTEGER,
+    employeeID INTEGER,
+    invoiceID INTEGER,
+    date DATE,
+    startTime TIME,
+    endTime TIME,
+    appointmentType VARCHAR(30),
+    status VARCHAR(30),
+    PRIMARY KEY (appointmentID),
+    FOREIGN KEY (patientID) REFERENCES Patient(patientID),
+    FOREIGN KEY (employeeID) REFERENCES Employee(employeeID),
+    FOREIGN KEY (invoiceID) REFERENCES Invoice(InvoiceID)
 
 );
 -- FeeCharge
@@ -52,6 +65,16 @@ CREATE TABLE FeeCharge (
 );
 -- AppointmentProcedure
 CREATE TABLE AppointmentProcedure (
+    procedureID INTEGER,
+    procedureType VARCHAR(30),
+    amountOfProcedure INTEGER,
+    employeeID INTEGER,
+    appointmentID INTEGER,
+    feeID INTEGER,
+    PRIMARY KEY (procedureID),
+    FOREIGN KEY (employeeID) REFERENCES Employee(employeeID),
+    FOREIGN KEY (appointmentID) REFERENCES Appointment(appointmentID),
+    FOREIGN KEY (feeID) REFERENCES FeeCharge(feeID)
 
 );
 
