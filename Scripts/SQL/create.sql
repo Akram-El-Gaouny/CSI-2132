@@ -115,13 +115,25 @@ CHECK (claimAmount >= 0);
 
 -- Treatment
 CREATE TABLE Treatment (
-
+    procedureID INTEGER,
+    tooth INTEGER,
+    comment VARCHAR(20),
+    recordID INTEGER,
+    FOREIGN KEY (recordID) REFERENCES PatientChart(recordID),
+    FOREIGN KEY (procedureID) REFERENCES AppointmentProcedure(procedureID)
+    
 );
 -- Symptom
 CREATE TABLE Symptom (
+    procedureID INTEGER,
+    symptomDescription VARCHAR(20),
+    FOREIGN KEY (procedureID) REFERENCES AppointmentProcedure(procedureID)
 
 );
 -- Medication
 CREATE TABLE Medication (
+    procedureID INTEGER,
+    medicationName VARCHAR(20),
+    FOREIGN KEY (procedureID) REFERENCES AppointmentProcedure(procedureID)
 
 );
