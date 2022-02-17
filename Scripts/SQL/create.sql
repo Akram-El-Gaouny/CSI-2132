@@ -1,18 +1,18 @@
 -- User
 CREATE TABLE User (
-    userID INTEGER,
-    first VARCHAR(30),
-    middle VARCHAR(30),
-    last VARCHAR(30),
-    email VARCHAR(30),
-    password VARCHAR(30),
-    houseNumber INTEGER(),
-    street VARCHAR(30),
-    city VARCHAR(30),
-    province VARCHAR(30),
-    role VARCHAR(30),
-    datOfBirth DATE,
-    age INTEGER GENERATED ALWAYS AS (TIMESTAMPDIFF(YEAR, dateOfBirth, CURDATE())),
+    userID INTEGER NOT NULL,
+    first VARCHAR(30) NOT NULL,
+    middle VARCHAR(30) NOT NULL,
+    last VARCHAR(30) NOT NULL,
+    email VARCHAR(30) NOT NULL,
+    password VARCHAR(30) NOT NULL,
+    houseNumber INTEGER NOT NULL,
+    street VARCHAR(30) NOT NULL,
+    city VARCHAR(30) NOT NULL,
+    province VARCHAR(30) NOT NULL,
+    role VARCHAR(30) NOT NULL,
+    datOfBirth DATE NOT NULL,
+    age INTEGER GENERATED ALWAYS AS (TIMESTAMPDIFF(YEAR, dateOfBirth, CURDATE())) NOT NULL,
     ssn INTEGER,
     PRIMARY KEY (userID)
 );
@@ -33,8 +33,8 @@ CHECK (province in ("Alberta", "British Columbia", "Manitoba", "New Brunswick", 
 
 -- PhoneNumber
 CREATE TABLE PhoneNumber (
-    userID INTEGER,
-    phoneNumber INTEGER,
+    userID INTEGER NOT NULL,
+    phoneNumber INTEGER NOT NULL,
     PRIMARY KEY (userID, phoneNumber),
     FOREIGN KEY (userID) REFERENCES User(UserID)
 );
@@ -45,7 +45,7 @@ CHECK (phoneNumber BETWEEN 0 AND 999999999);
 
 -- Patient
 CREATE TABLE Patient (
-    patientID INTEGER,
+    patientID INTEGER NOT NULL,
     insuranceProvider VARCHAR(30),
     PRIMARY KEY (patientID),
     FOREIGN KEY (patientID) REFERENCES User(userID)
@@ -56,18 +56,50 @@ CREATE TABLE Branch (
 );
 -- Review
 CREATE TABLE Review (
-
+    reviewID INTEGER NOT NULL,
+    professionalism INTEGER,
+    cleanliness INTEGER,
+    value INTEGER,
+    communication INTEGER,
+    FOREIGN KEY (userID) REFERENCES User(userID),
+    FOREIGN KEY (branchID) REFERENCES Branch(branchID),
+    date DATE,
+    PRIMARY KEY (reviewID)
 );
+
+-- Checking for valid professionalism
+ALTER TABLE Review
+ADD CONSTRAINT valid_professionalism
+CHECK (professionalism BETWEEN 1 AND 5);
+
+-- Checking for valid cleanliness
+ALTER TABLE Review
+ADD CONSTRAINT valid_cleanliness
+CHECK (cleanliness BETWEEN 1 AND 5);
+
+-- Checking for valid value
+ALTER TABLE Review
+ADD CONSTRAINT valid_value
+CHECK (value BETWEEN 1 AND 5);
+
+-- Checking for valid communication
+ALTER TABLE Review
+ADD CONSTRAINT valid_communication
+CHECK (communication BETWEEN 1 AND 5);
+
+
+
 -- Employee
 CREATE TABLE Employee (
-    employeeID INTEGER,
-    salary INTEGER,
-    position VARCHAR(30),
-    branchID INTEGER,
+    employeeID INTEGER NOT NULL,
+    salary INTEGER NOT NULL,
+    position VARCHAR(30) NOT NULL,
+    branchID INTEGER NOT NULL,
     PRIMARY KEY (employeeID),
     FOREIGN KEY (employeeID) REFERENCES User(userID),
     FOREIGN KEY (branchID) REFERENCES Branch(branchID)
 );
+
 -- Checking for valid position
 ALTER TABLE User 
 ADD CONSTRAINT valid_position
@@ -125,8 +157,41 @@ CREATE TABLE Authored (
 );
 -- Invoice
 CREATE TABLE Invoice (
-
+    invoiceID INTEGER NOT NULL,
+    discount DECIMAL(2,1),
+    patientCharge DECIMAL(10,2) NOT NULL,
+    totalFeeCharge DECIMAL(10,2) NOT NULL,
+    insuranceCharge DECIMAL(10,2) NOT NULL,
+    penalty DECIMAL(10,2),
+    PRIMARY KEY  (invoiceID),
+    FOREIGN KEY fulfillerID REFERENCES User(userID)
 );
+
+-- Checking for valid discount
+ALTER TABLE Invoice
+ADD CONSTRAINT valid_discount
+CHECK (discount BETWEEN 0.0 AND 1.0);
+
+-- Checking for valid totalFeeCharge
+ALTER TABLE Invoice
+ADD CONSTRAINT valid_totalFeeCharge
+CHECK (totalFeeCharge >= 0.0);
+
+-- Checking for valid insuranceCharge
+ALTER TABLE Invoice
+ADD CONSTRAINT valid_insuranceCharge
+CHECK (insuranceCharge >= 0.0);
+
+-- Checking for valid patientCharge
+ALTER TABLE Invoice
+ADD CONSTRAINT valid_patientCharge
+CHECK (patientCharge >= 0.0);
+
+-- Checking for valid penalty
+ALTER TABLE Invoice
+ADD CONSTRAINT valid_penalty
+CHECK (penalty >= 0.0);
+
 -- PaymentType
 CREATE TABLE PaymentType (
 
@@ -150,8 +215,22 @@ CREATE TABLE Appointment (
 );
 -- FeeCharge
 CREATE TABLE FeeCharge (
-
+    feeID INTEGER NOT NULL,
+    feeCode INTEGER NOT NULL,
+    charge DECIMAL(10,2) NOT NULL,
+    PRIMARY KEY (feeID)
 );
+
+-- Checking for valid fee code
+ALTER TABLE FeeCharge
+ADD CONSTRAINT valid_feeCode
+CHECK (feeCode BETWEEN 90000 AND 99999);
+
+-- Checking for valid fee code
+ALTER TABLE FeeCharge
+ADD CONSTRAINT valid_charge
+CHECK (charge >= 0.00);
+
 -- AppointmentProcedure
 CREATE TABLE AppointmentProcedure (
     procedureID INTEGER,
