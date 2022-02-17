@@ -1,14 +1,54 @@
 -- User
 CREATE TABLE User (
-
+    userID INTEGER,
+    first VARCHAR(30),
+    middle VARCHAR(30),
+    last VARCHAR(30),
+    email VARCHAR(30),
+    password VARCHAR(30),
+    houseNumber INTEGER(),
+    street VARCHAR(30),
+    city VARCHAR(30),
+    province VARCHAR(30),
+    role VARCHAR(30),
+    datOfBirth DATE,
+    age INTEGER GENERATED ALWAYS AS (TIMESTAMPDIFF(YEAR, dateOfBirth, CURDATE())),
+    ssn INTEGER,
+    PRIMARY KEY (userID)
 );
+-- Checking for valid ssn
+ALTER TABLE User 
+ADD CONSTRAINT valid_ssn
+CHECK (ssn BETWEEN 0 AND 999999999);
+
+-- Checking for valid role
+ALTER TABLE User 
+ADD CONSTRAINT valid_role
+CHECK (role in ("admin", "user", "employee", "patient"));
+
+-- Checking for valid province
+ALTER TABLE User 
+ADD CONSTRAINT valid_province
+CHECK (province in ("Alberta", "British Columbia", "Manitoba", "New Brunswick", "Newfoundland and Labrador", "Northwest Territories", "Nova Scotia", "Nunavut", "Ontario", "Prince Edward Island", "Quebec", "Saskatchewan", "Yukon"));
+
 -- PhoneNumber
 CREATE TABLE PhoneNumber (
-
+    userID INTEGER,
+    phoneNumber INTEGER,
+    PRIMARY KEY (userID, phoneNumber),
+    FOREIGN KEY (userID) REFERENCES User(UserID)
 );
+-- Checking for valid phoneNumber
+ALTER TABLE PhoneNumber
+ADD CONSTRAINT valid_phoneNumber
+CHECK (phoneNumber BETWEEN 0 AND 999999999);
+
 -- Patient
 CREATE TABLE Patient (
-
+    patientID INTEGER,
+    insuranceProvider VARCHAR(30),
+    PRIMARY KEY (patientID),
+    FOREIGN KEY (patientID) REFERENCES User(userID)
 );
 -- Branch
 CREATE TABLE Branch (
@@ -20,11 +60,60 @@ CREATE TABLE Review (
 );
 -- Employee
 CREATE TABLE Employee (
-
+    employeeID INTEGER,
+    salary INTEGER,
+    position VARCHAR(30),
+    branchID INTEGER,
+    PRIMARY KEY (employeeID),
+    FOREIGN KEY (employeeID) REFERENCES User(userID),
+    FOREIGN KEY (branchID) REFERENCES Branch(branchID)
 );
+-- Checking for valid position
+ALTER TABLE User 
+ADD CONSTRAINT valid_position
+CHECK (position in ("manager", "dentist", "hygienist", "receptionist"));
+
+-- Limit number of managers per branch to 1
+DELIMITER $$
+CREATE TRIGGER check_test
+    BEFORE INSERT 
+    ON Employee
+    FOR EACH ROW
+    BEGIN
+    DECLARE manager_count INTEGER;
+    SELECT count(*) INTO manager_count WHERE role="manager";
+    
+    IF NEW.role = "manager" and manager_count >= 1 THEN
+        SIGNAL SQLSTATE '1'
+            SET MESSAGE_TEXT = 'There can only be one manager per branch';
+    END IF;
+    END$$
+DELIMITER ;
+
+-- Limit number of receptionists per branch to 2
+DELIMITER $$
+CREATE TRIGGER check_test
+    BEFORE INSERT 
+    ON Employee
+    FOR EACH ROW
+    BEGIN
+    DECLARE receptionist_count INTEGER;
+    SELECT count(*) INTO receptionist_count WHERE role="receptionist";
+    
+    IF NEW.role = "receptionist" and receptionist_count >= 2 THEN
+        SIGNAL SQLSTATE '1'
+            SET MESSAGE_TEXT = 'There can only be two receptionists per branch';
+    END IF;
+    END$$
+DELIMITER ;
+
 -- ResponsibleFor
 CREATE TABLE ResponsibleFor (
-
+    patientID INTEGER,
+    responsiblePartyID INTEGER,
+    PRIMARY KEY (patientID, responsiblePartyID),
+    FOREIGN KEY (patientID) REFERENCES Patient(patientID),
+    FOREIGN KEY (responsiblePartyID) REFERENCES User(userID)
 );
 -- PatientChart
 CREATE TABLE PatientChart (
