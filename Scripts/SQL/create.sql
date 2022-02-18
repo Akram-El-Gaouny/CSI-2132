@@ -158,7 +158,7 @@ CREATE TABLE Authored (
 -- Invoice
 CREATE TABLE Invoice (
     invoiceID INTEGER NOT NULL,
-    discount DECIMAL(2,1),
+    discount DECIMAL(2,2),
     patientCharge DECIMAL(10,2) NOT NULL,
     totalFeeCharge DECIMAL(10,2) NOT NULL,
     insuranceCharge DECIMAL(10,2) NOT NULL,
