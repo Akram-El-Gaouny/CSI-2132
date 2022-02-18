@@ -147,14 +147,17 @@ CREATE TRIGGER check_manager
     ON Employee
     FOR EACH ROW
     BEGIN
+
     DECLARE manager_count INTEGER;
-    SELECT count(Employee) INTO manager_count WHERE position="manager" and branchID = NEW.branchID;
+    SELECT count(employeeID) FROM employee  WHERE position="manager" and branchID = NEW.branchID INTO manager_count;
     IF NEW.position = "manager" and manager_count >= 1 THEN
-        SIGNAL SQLSTATE '1'
+        SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'There can only be one manager per branch';
     END IF;
     END$$
 DELIMITER ;
+
+
 
 -- Limit number of receptionists per branch to 2
 DELIMITER $$
@@ -164,9 +167,9 @@ CREATE TRIGGER check_receptionist
     FOR EACH ROW
     BEGIN
     DECLARE receptionist_count INTEGER;
-    SELECT count(Employee) INTO receptionist_count WHERE position="receptionist" and branchID = NEW.branchID;
+    SELECT count(employeeID) FROM employee WHERE position="receptionist" and branchID = NEW.branchID INTO receptionist_count;
     IF NEW.position = "receptionist" and receptionist_count >= 2 THEN
-        SIGNAL SQLSTATE '2'
+        SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'There can only be two receptionists per branch';
     END IF;
     END$$
