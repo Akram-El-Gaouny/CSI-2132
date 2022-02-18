@@ -11,11 +11,30 @@ CREATE TABLE User (
     city VARCHAR(30) NOT NULL,
     province VARCHAR(30) NOT NULL,
     role VARCHAR(30) NOT NULL,
-    datOfBirth DATE NOT NULL,
-    age INTEGER GENERATED ALWAYS AS (TIMESTAMPDIFF(YEAR, dateOfBirth, CURDATE())) NOT NULL,
+    dateOfBirth DATE NOT NULL,
+    age INTEGER NOT NULL,
     ssn INTEGER,
     PRIMARY KEY (userID)
 );
+
+-- Calculate age
+DELIMITER $$
+CREATE TRIGGER calculate_user_age
+    BEFORE INSERT 
+    ON User
+    FOR EACH ROW
+    BEGIN
+    DECLARE today INTEGER;
+	DECLARE userAge INTEGER;
+   
+    SELECT CURDATE() INTO today;
+   
+	SET NEW.age = TIMESTAMPDIFF(YEAR, NEW.dateOfBirth, today);
+    END$$
+    
+DELIMITER ;
+
+
 -- Checking for valid ssn
 ALTER TABLE User 
 ADD CONSTRAINT valid_ssn
