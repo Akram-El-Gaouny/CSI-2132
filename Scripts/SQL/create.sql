@@ -26,14 +26,10 @@ CREATE TRIGGER calculate_user_age
     BEGIN
     DECLARE today INTEGER;
 	DECLARE userAge INTEGER;
-   
     SELECT CURDATE() INTO today;
-   
 	SET NEW.age = TIMESTAMPDIFF(YEAR, NEW.dateOfBirth, today);
     END$$
-    
 DELIMITER ;
-
 
 -- Checking for valid ssn
 ALTER TABLE User 
@@ -100,7 +96,9 @@ CREATE TABLE Review (
     cleanliness INTEGER,
     value INTEGER,
     communication INTEGER,
+    userID INTEGER,
     FOREIGN KEY (userID) REFERENCES User(userID),
+    branchID INTEGER,
     FOREIGN KEY (branchID) REFERENCES Branch(branchID),
     date DATE,
     PRIMARY KEY (reviewID)
@@ -138,7 +136,7 @@ CREATE TABLE Employee (
 );
 
 -- Checking for valid position
-ALTER TABLE User 
+ALTER TABLE Employee 
 ADD CONSTRAINT valid_position
 CHECK (position in ("manager", "dentist", "hygienist", "receptionist"));
 
@@ -150,8 +148,8 @@ CREATE TRIGGER check_manager
     FOR EACH ROW
     BEGIN
     DECLARE manager_count INTEGER;
-    SELECT count(*) INTO manager_count WHERE role="manager" and branchID = New.branchID;
-    IF NEW.role = "manager" and manager_count >= 1 THEN
+    SELECT count(Employee) INTO manager_count WHERE position="manager" and branchID = NEW.branchID;
+    IF NEW.position = "manager" and manager_count >= 1 THEN
         SIGNAL SQLSTATE '1'
             SET MESSAGE_TEXT = 'There can only be one manager per branch';
     END IF;
@@ -166,8 +164,8 @@ CREATE TRIGGER check_receptionist
     FOR EACH ROW
     BEGIN
     DECLARE receptionist_count INTEGER;
-    SELECT count(*) INTO receptionist_count WHERE role="receptionist" and branchID = New.branchID;
-    IF NEW.role = "receptionist" and receptionist_count >= 2 THEN
+    SELECT count(Employee) INTO receptionist_count WHERE position="receptionist" and branchID = NEW.branchID;
+    IF NEW.position = "receptionist" and receptionist_count >= 2 THEN
         SIGNAL SQLSTATE '2'
             SET MESSAGE_TEXT = 'There can only be two receptionists per branch';
     END IF;
@@ -208,6 +206,7 @@ CREATE TABLE Invoice (
     insuranceCharge DECIMAL(10,2) NOT NULL,
     penalty DECIMAL(10,2),
     PRIMARY KEY  (invoiceID),
+    fulfillerID INTEGER,
     FOREIGN KEY (fulfillerID) REFERENCES User(userID)
 );
 
