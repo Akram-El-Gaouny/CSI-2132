@@ -1,6 +1,6 @@
 -- User
 CREATE TABLE User (
-    userID INTEGER NOT NULL,
+    userID INTEGER NOT NULL AUTO_INCREMENT,
     first VARCHAR(30) NOT NULL,
     middle VARCHAR(30) NOT NULL,
     last VARCHAR(30) NOT NULL,
@@ -36,7 +36,7 @@ CREATE TABLE PhoneNumber (
     userID INTEGER NOT NULL,
     phoneNumber INTEGER NOT NULL,
     PRIMARY KEY (userID, phoneNumber),
-    FOREIGN KEY (userID) REFERENCES User(UserID)
+    FOREIGN KEY (userID) REFERENCES User(userID)
 );
 -- Checking for valid phoneNumber
 ALTER TABLE PhoneNumber
@@ -56,7 +56,7 @@ CREATE TABLE Branch (
 );
 -- Review
 CREATE TABLE Review (
-    reviewID INTEGER NOT NULL,
+    reviewID INTEGER NOT NULL AUTO_INCREMENT,
     professionalism INTEGER,
     cleanliness INTEGER,
     value INTEGER,
@@ -87,8 +87,6 @@ ALTER TABLE Review
 ADD CONSTRAINT valid_communication
 CHECK (communication BETWEEN 1 AND 5);
 
-
-
 -- Employee
 CREATE TABLE Employee (
     employeeID INTEGER NOT NULL,
@@ -107,13 +105,13 @@ CHECK (position in ("manager", "dentist", "hygienist", "receptionist"));
 
 -- Limit number of managers per branch to 1
 DELIMITER $$
-CREATE TRIGGER check_test
+CREATE TRIGGER check_manager
     BEFORE INSERT 
     ON Employee
     FOR EACH ROW
     BEGIN
     DECLARE manager_count INTEGER;
-    SELECT count(*) INTO manager_count WHERE role="manager";
+    SELECT count(*) INTO manager_count WHERE role="manager" and branchID = New.branchID;
     
     IF NEW.role = "manager" and manager_count >= 1 THEN
         SIGNAL SQLSTATE '1'
@@ -124,16 +122,16 @@ DELIMITER ;
 
 -- Limit number of receptionists per branch to 2
 DELIMITER $$
-CREATE TRIGGER check_test
+CREATE TRIGGER check_receptionist
     BEFORE INSERT 
     ON Employee
     FOR EACH ROW
     BEGIN
     DECLARE receptionist_count INTEGER;
-    SELECT count(*) INTO receptionist_count WHERE role="receptionist";
+    SELECT count(*) INTO receptionist_count WHERE role="receptionist" and branchID = New.branchID;
     
     IF NEW.role = "receptionist" and receptionist_count >= 2 THEN
-        SIGNAL SQLSTATE '1'
+        SIGNAL SQLSTATE '2'
             SET MESSAGE_TEXT = 'There can only be two receptionists per branch';
     END IF;
     END$$
@@ -157,7 +155,7 @@ CREATE TABLE Authored (
 );
 -- Invoice
 CREATE TABLE Invoice (
-    invoiceID INTEGER NOT NULL,
+    invoiceID INTEGER NOT NULL AUTO_INCREMENT,
     discount DECIMAL(2,2),
     patientCharge DECIMAL(10,2) NOT NULL,
     totalFeeCharge DECIMAL(10,2) NOT NULL,
@@ -198,7 +196,7 @@ CREATE TABLE PaymentType (
 );
 -- Appointment
 CREATE TABLE Appointment (
-    appointmentID INTEGER,
+    appointmentID INTEGER AUTO_INCREMENT,
     patientID INTEGER,
     employeeID INTEGER,
     invoiceID INTEGER,
@@ -215,7 +213,7 @@ CREATE TABLE Appointment (
 );
 -- FeeCharge
 CREATE TABLE FeeCharge (
-    feeID INTEGER NOT NULL,
+    feeID INTEGER NOT NULL AUTO_INCREMENT,
     feeCode INTEGER NOT NULL,
     charge DECIMAL(10,2) NOT NULL,
     PRIMARY KEY (feeID)
@@ -233,7 +231,7 @@ CHECK (charge >= 0.00);
 
 -- AppointmentProcedure
 CREATE TABLE AppointmentProcedure (
-    procedureID INTEGER,
+    procedureID INTEGER AUTO_INCREMENT,
     procedureType VARCHAR(30),
     amountOfProcedure INTEGER,
     employeeID INTEGER,
@@ -303,5 +301,4 @@ CREATE TABLE Medication (
     procedureID INTEGER,
     medicationName VARCHAR(20),
     FOREIGN KEY (procedureID) REFERENCES AppointmentProcedure(procedureID)
-
 );
