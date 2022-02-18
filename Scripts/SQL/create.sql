@@ -48,7 +48,8 @@ CHECK (role in ("admin", "user", "employee", "patient"));
 -- Checking for valid province
 ALTER TABLE User 
 ADD CONSTRAINT valid_province
-CHECK (province in ("Alberta", "British Columbia", "Manitoba", "New Brunswick", "Newfoundland and Labrador", "Northwest Territories", "Nova Scotia", "Nunavut", "Ontario", "Prince Edward Island", "Quebec", "Saskatchewan", "Yukon"));
+CHECK (province in ("Alberta", "British Columbia", "Manitoba", "New Brunswick", "Newfoundland and Labrador", 
+"Northwest Territories", "Nova Scotia", "Nunavut", "Ontario", "Prince Edward Island", "Quebec", "Saskatchewan", "Yukon"));
 
 -- PhoneNumber
 CREATE TABLE PhoneNumber (
@@ -57,6 +58,7 @@ CREATE TABLE PhoneNumber (
     PRIMARY KEY (userID, phoneNumber),
     FOREIGN KEY (userID) REFERENCES User(userID)
 );
+
 -- Checking for valid phoneNumber
 ALTER TABLE PhoneNumber
 ADD CONSTRAINT valid_phoneNumber
@@ -69,10 +71,28 @@ CREATE TABLE Patient (
     PRIMARY KEY (patientID),
     FOREIGN KEY (patientID) REFERENCES User(userID)
 );
+
 -- Branch
 CREATE TABLE Branch (
-
+	branchID INTEGER NOT NULL AUTO_INCREMENT,
+	PRIMARY KEY (branchID),
+    houseNumber INTEGER NOT NULL,
+    street VARCHAR(30) NOT NULL,
+    city VARCHAR(30) NOT NULL,
+    province VARCHAR(30) NOT NULL
 );
+
+-- Checking for valid province
+ALTER TABLE Branch 
+ADD CONSTRAINT valid_branch_province
+CHECK (province in ("Alberta", "British Columbia", "Manitoba", "New Brunswick", "Newfoundland and Labrador", 
+"Northwest Territories", "Nova Scotia", "Nunavut", "Ontario", "Prince Edward Island", "Quebec", "Saskatchewan", "Yukon"));
+
+-- Checking that valid street number
+ALTER TABLE Branch 
+ADD CONSTRAINT check_valid_houseNumber 
+CHECK (houseNumber > 0);
+
 -- Review
 CREATE TABLE Review (
     reviewID INTEGER NOT NULL AUTO_INCREMENT,
@@ -131,7 +151,6 @@ CREATE TRIGGER check_manager
     BEGIN
     DECLARE manager_count INTEGER;
     SELECT count(*) INTO manager_count WHERE role="manager" and branchID = New.branchID;
-    
     IF NEW.role = "manager" and manager_count >= 1 THEN
         SIGNAL SQLSTATE '1'
             SET MESSAGE_TEXT = 'There can only be one manager per branch';
@@ -148,7 +167,6 @@ CREATE TRIGGER check_receptionist
     BEGIN
     DECLARE receptionist_count INTEGER;
     SELECT count(*) INTO receptionist_count WHERE role="receptionist" and branchID = New.branchID;
-    
     IF NEW.role = "receptionist" and receptionist_count >= 2 THEN
         SIGNAL SQLSTATE '2'
             SET MESSAGE_TEXT = 'There can only be two receptionists per branch';
@@ -164,14 +182,23 @@ CREATE TABLE ResponsibleFor (
     FOREIGN KEY (patientID) REFERENCES Patient(patientID),
     FOREIGN KEY (responsiblePartyID) REFERENCES User(userID)
 );
+
 -- PatientChart
 CREATE TABLE PatientChart (
-
+	recordID INTEGER NOT NULL AUTO_INCREMENT,
+	PRIMARY KEY (recordID),
+    patientID INTEGER,
+    FOREIGN KEY (patientID) REFERENCES Patient(patientID)
 );
+
 -- Authored
 CREATE TABLE Authored (
-
+	employeeID INTEGER NOT NULL,
+    FOREIGN KEY (employeeID) REFERENCES Employee(employeeID),
+	chartID INTEGER NOT NULL,
+    FOREIGN KEY (chartID) REFERENCES PatientChart(recordID)
 );
+
 -- Invoice
 CREATE TABLE Invoice (
     invoiceID INTEGER NOT NULL AUTO_INCREMENT,
@@ -181,7 +208,7 @@ CREATE TABLE Invoice (
     insuranceCharge DECIMAL(10,2) NOT NULL,
     penalty DECIMAL(10,2),
     PRIMARY KEY  (invoiceID),
-    FOREIGN KEY fulfillerID REFERENCES User(userID)
+    FOREIGN KEY (fulfillerID) REFERENCES User(userID)
 );
 
 -- Checking for valid discount
@@ -211,8 +238,16 @@ CHECK (penalty >= 0.0);
 
 -- PaymentType
 CREATE TABLE PaymentType (
-
+	invoiceID INTEGER NOT NULL,
+    FOREIGN KEY (invoiceID) REFERENCES Invoice(invoiceID),
+    paymentType VARCHAR(30)
 );
+
+-- Checking for valid payment type
+ALTER TABLE PaymentType 
+ADD CONSTRAINT valid_PaymentType
+CHECK (paymentType in ("cash", "visa", "cheque", "mastercard", "amex", "paypal", "debit"));
+
 -- Appointment
 CREATE TABLE Appointment (
     appointmentID INTEGER AUTO_INCREMENT,
@@ -228,8 +263,8 @@ CREATE TABLE Appointment (
     FOREIGN KEY (patientID) REFERENCES Patient(patientID),
     FOREIGN KEY (employeeID) REFERENCES Employee(employeeID),
     FOREIGN KEY (invoiceID) REFERENCES Invoice(InvoiceID)
-
 );
+
 -- FeeCharge
 CREATE TABLE FeeCharge (
     feeID INTEGER NOT NULL AUTO_INCREMENT,
@@ -260,7 +295,6 @@ CREATE TABLE AppointmentProcedure (
     FOREIGN KEY (employeeID) REFERENCES Employee(employeeID),
     FOREIGN KEY (appointmentID) REFERENCES Appointment(appointmentID),
     FOREIGN KEY (feeID) REFERENCES FeeCharge(feeID)
-
 );
 
 -- PatientPayment
@@ -306,15 +340,15 @@ CREATE TABLE Treatment (
     recordID INTEGER,
     FOREIGN KEY (recordID) REFERENCES PatientChart(recordID),
     FOREIGN KEY (procedureID) REFERENCES AppointmentProcedure(procedureID)
-    
 );
+
 -- Symptom
 CREATE TABLE Symptom (
     procedureID INTEGER,
     symptomDescription VARCHAR(20),
     FOREIGN KEY (procedureID) REFERENCES AppointmentProcedure(procedureID)
-
 );
+
 -- Medication
 CREATE TABLE Medication (
     procedureID INTEGER,
