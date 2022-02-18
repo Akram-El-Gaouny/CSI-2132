@@ -287,26 +287,31 @@ CHECK (charge >= 0.00);
 
 -- AppointmentProcedure
 CREATE TABLE AppointmentProcedure (
-    procedureID INTEGER AUTO_INCREMENT,
-    procedureType VARCHAR(30),
-    amountOfProcedure INTEGER,
-    employeeID INTEGER,
-    appointmentID INTEGER,
-    feeID INTEGER,
+    procedureID INTEGER NOT NULL AUTO_INCREMENT,
+    procedureType VARCHAR(30) NOT NULL,
+    amountOfProcedure INTEGER NOT NULL,
+    employeeID INTEGER NOT NULL,
+    appointmentID INTEGER NOT NULL,
+    feeID INTEGER NOT NULL,
     PRIMARY KEY (procedureID),
     FOREIGN KEY (employeeID) REFERENCES Employee(employeeID),
     FOREIGN KEY (appointmentID) REFERENCES Appointment(appointmentID),
     FOREIGN KEY (feeID) REFERENCES FeeCharge(feeID)
 );
 
+-- Checking that AppointmentProcedure is positive and not 0
+ALTER TABLE AppointmentProcedure 
+ADD CONSTRAINT check_amountOfProcedure
+CHECK (amountOfProcedure > 0);
+
 -- PatientPayment
 CREATE TABLE PatientPayment (
-    patientPaymentID INTEGER AUTO_INCREMENT,
-    paymentDate DATE,
-    patientAmount NUMERIC(8,2),
-    insuranceAmount NUMERIC(8,2),
-    invoiceID INTEGER,
-    procedureID INTEGER,
+    patientPaymentID INTEGER NOT NULL AUTO_INCREMENT,
+    paymentDate DATE NOT NULL,
+    patientAmount NUMERIC(8,2) NOT NULL,
+    insuranceAmount NUMERIC(8,2) NOT NULL,
+    invoiceID INTEGER NOT NULL,
+    procedureID INTEGER NOT NULL,
     PRIMARY KEY (patientPaymentID),
     FOREIGN KEY (invoiceID) REFERENCES Invoice(InvoiceID),
     FOREIGN KEY (procedureID) REFERENCES AppointmentProcedure(procedureID)
@@ -336,24 +341,31 @@ CHECK (claimAmount >= 0);
 
 -- Treatment
 CREATE TABLE Treatment (
-    procedureID INTEGER,
-    tooth INTEGER,
+    procedureID INTEGER NOT NULL,
+    tooth INTEGER NOT NULL,
     comment VARCHAR(20),
-    recordID INTEGER,
+    recordID INTEGER NOT NULL,
     FOREIGN KEY (recordID) REFERENCES PatientChart(recordID),
     FOREIGN KEY (procedureID) REFERENCES AppointmentProcedure(procedureID)
 );
 
+ALTER TABLE Treatment 
+ADD CONSTRAINT check_tooth 
+CHECK (tooth >= 1 and tooth <= 32);
+
+
 -- Symptom
 CREATE TABLE Symptom (
-    procedureID INTEGER,
-    symptomDescription VARCHAR(20),
+    procedureID INTEGER NOT NULL,
+    symptomDescription VARCHAR(20) NOT NULL,
+    PRIMARY KEY (procedureID, symptomDescription),
     FOREIGN KEY (procedureID) REFERENCES AppointmentProcedure(procedureID)
 );
 
 -- Medication
 CREATE TABLE Medication (
-    procedureID INTEGER,
-    medicationName VARCHAR(20),
+    procedureID INTEGER NOT NULL,
+    medicationName VARCHAR(20) NOT NULL,
+    PRIMARY KEY (procedureID, medicationName),
     FOREIGN KEY (procedureID) REFERENCES AppointmentProcedure(procedureID)
 );
