@@ -147,7 +147,6 @@ CREATE TRIGGER check_manager
     ON Employee
     FOR EACH ROW
     BEGIN
-
     DECLARE manager_count INTEGER;
     SELECT count(employeeID) FROM employee  WHERE position="manager" and branchID = NEW.branchID INTO manager_count;
     IF NEW.position = "manager" and manager_count >= 1 THEN
@@ -156,8 +155,6 @@ CREATE TRIGGER check_manager
     END IF;
     END$$
 DELIMITER ;
-
-
 
 -- Limit number of receptionists per branch to 2
 DELIMITER $$
@@ -340,6 +337,8 @@ CREATE TABLE InsuranceClaim (
     PRIMARY KEY (claimID),
     FOREIGN KEY (patientPaymentID) REFERENCES PatientPayment(patientPaymentID)
 );
+
+-- Checking that claim amount is valid
 ALTER TABLE InsuranceClaim 
 ADD CONSTRAINT check_claimAmount 
 CHECK (claimAmount >= 0);
@@ -354,10 +353,10 @@ CREATE TABLE Treatment (
     FOREIGN KEY (procedureID) REFERENCES AppointmentProcedure(procedureID)
 );
 
+-- Checking that tooth number is valid
 ALTER TABLE Treatment 
 ADD CONSTRAINT check_tooth 
 CHECK (tooth >= 1 and tooth <= 32);
-
 
 -- Symptom
 CREATE TABLE Symptom (
