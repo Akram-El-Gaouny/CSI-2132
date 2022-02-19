@@ -267,6 +267,11 @@ CREATE TABLE Appointment (
     FOREIGN KEY (invoiceID) REFERENCES Invoice(InvoiceID)
 );
 
+-- Checking for valid status
+ALTER TABLE Appointment
+ADD CONSTRAINT valid_status
+CHECK ( status in ("completed", "no show", "late cancelation", "canceled") );
+
 -- FeeCharge
 CREATE TABLE FeeCharge (
     feeID INTEGER NOT NULL AUTO_INCREMENT,
