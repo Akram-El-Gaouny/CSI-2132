@@ -5,12 +5,19 @@
 
 ## Running the backend (Node Server):
 
-- Fill out a config.json file
+```
+// Make sure you have node installed
+npm -v 
+```
+
+You can install it from [here](https://nodejs.org/en/download/).
+
+- Fill out a config.json file 
+    - make a copy of this [file]() and and place it `./Server/` directory
     - you need to provide your username, password and the database you want to connect to.
     - The server will automatically run on port `:8000` If that's a problem change the port in the config.json
     - Make sure the config.json is never commited to the repo (already in a gitignore)
-    - config.json must be in `./Server/` directory
-
+    
 -   Run the node server 
     - For windows:
         - You can either run the runBackend.ps1 scripts or you can manually write the lines in the script

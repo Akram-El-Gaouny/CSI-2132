@@ -1,0 +1,11 @@
+{
+    "dbConfig": {
+        "host": "localhost",
+        "user": "<username>",
+        "password": "<password>",
+        "database": "<dadabase>"
+    },
+    "serverConfig": {
+        "port": 8000
+    }
+}
