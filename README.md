@@ -2,6 +2,8 @@
 
 ## Directories
 - scripts/SQL (Files to create and update the database)
+- db-project for ui
+- ui is deployed on https://Akram-El-Gaouny.github.io/CSI-2132
 
 ## Running the backend (Node Server):
 
