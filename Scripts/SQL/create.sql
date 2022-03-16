@@ -4,7 +4,7 @@ CREATE TABLE User (
     first VARCHAR(30) NOT NULL,
     middle VARCHAR(30) NOT NULL,
     last VARCHAR(30) NOT NULL,
-    email VARCHAR(30) NOT NULL,
+    email VARCHAR(30) NOT NULL UNIQUE,
     password VARCHAR(30) NOT NULL,
     houseNumber INTEGER NOT NULL,
     street VARCHAR(30) NOT NULL,
@@ -13,7 +13,7 @@ CREATE TABLE User (
     role VARCHAR(30) NOT NULL,
     dateOfBirth DATE NOT NULL,
     age INTEGER NOT NULL,
-    ssn INTEGER,
+    ssn INTEGER UNIQUE,
     PRIMARY KEY (userID)
 );
 
