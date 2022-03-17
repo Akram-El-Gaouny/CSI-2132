@@ -274,6 +274,7 @@ CREATE TABLE FeeCharge (
     feeID INTEGER NOT NULL AUTO_INCREMENT,
     feeCode INTEGER NOT NULL,
     charge DECIMAL(10,2) NOT NULL,
+    feeDesc VARCHAR(30) NOT NULL,
     PRIMARY KEY (feeID)
 );
 
