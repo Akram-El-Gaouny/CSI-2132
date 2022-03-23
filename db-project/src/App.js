@@ -10,18 +10,18 @@ function App() {
 
       <Switch>
 
-        <Route exact path = "/home">
+        <Route exact path = "/CSI-2132">
         <Navbar List = {[ { display : "Branches", path : "/"}, { display : "Sign In", path : "/signin"},  { display : "Sign Up", path : "/"}]}/>
         <Footer/>
         </Route>
 
         <Route exact path = "/signin">
-        <Navbar List = {[ { display : "Home", path : "/"} , { display : "Sign Up", path : "/"}]}/>
+        <Navbar List = {[ { display : "Home", path : "/CSI-2132"} , { display : "Sign Up", path : "/"}]}/>
         <Footer/>
         </Route>
 
         <Route exact path = "/*">
-        <Redirect to = {'/home'} />
+        <Redirect to = {'/CSI-2132'} />
         </Route>
 
 
