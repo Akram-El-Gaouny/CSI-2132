@@ -10,7 +10,7 @@ function App() {
 
       <Switch>
 
-        <Route exact path = "/">
+        <Route exact path = "/home">
         <Navbar List = {[ { display : "Branches", path : "/"}, { display : "Sign In", path : "/signin"},  { display : "Sign Up", path : "/"}]}/>
         <Footer/>
         </Route>
@@ -21,7 +21,7 @@ function App() {
         </Route>
 
         <Route exact path = "/*">
-        <Redirect to = {'/'} />
+        <Redirect to = {'/home'} />
         </Route>
 
 
