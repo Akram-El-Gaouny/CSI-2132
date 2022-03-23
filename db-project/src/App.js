@@ -11,11 +11,11 @@ function App() {
       <Switch>
 
         <Route exact path = "/CSI-2132">
-        <Navbar List = {[ { display : "Branches", path : "/"}, { display : "Sign In", path : "/signin"},  { display : "Sign Up", path : "/"}]}/>
+        <Navbar List = {[ { display : "Branches", path : "/CSI-2132"}, { display : "Sign In", path : "/CSI-2132/signin"},  { display : "Sign Up", path : "/CSI-2132"}]}/>
         <Footer/>
         </Route>
 
-        <Route exact path = "/signin">
+        <Route exact path = "/CSI-2132/signin">
         <Navbar List = {[ { display : "Home", path : "/CSI-2132"} , { display : "Sign Up", path : "/"}]}/>
         <Footer/>
         </Route>
