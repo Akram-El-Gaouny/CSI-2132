@@ -15,13 +15,13 @@ function App() {
         <Footer/>
         </Route>
 
-        <Route exact path = "/CSI-2132/signin">
-        <Navbar List = {[ { display : "Home", path : "/CSI-2132"} , { display : "Sign Up", path : "/"}]}/>
+        <Route exact path = "/CSI-2132/signin" >
+        <Navbar List = {[ { display : "Home", path : "/CSI-2132"} , { display : "Sign Up", path : "/CSI-2132"}]}/>
         <Footer/>
         </Route>
 
         <Route exact path = "/*">
-        <Redirect to = {'/CSI-2132'} />
+        <Redirect to = {"/CSI-2132"} />
         </Route>
 
 
