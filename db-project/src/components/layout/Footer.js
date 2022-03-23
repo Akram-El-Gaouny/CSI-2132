@@ -6,8 +6,8 @@ function Footer() {
   return (
     <div className='footer-container'>
       <section className='footer-subscription'>
-        <p className='footer-subscription-heading'>
-          Join the DCMS newsletter to receive latest updates
+      <p className='footer-subscription-heading'>
+          Contact Us
         </p>
         <div className='input-areas'>
           <form>
