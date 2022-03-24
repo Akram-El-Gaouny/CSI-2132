@@ -1,0 +1,15 @@
+#signInBorder{
+    border: 5px solid black;
+    border-radius: 10px;
+}
+
+.formTitle{
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.error{
+    color: red;
+    font-weight: bold;
+    
+}

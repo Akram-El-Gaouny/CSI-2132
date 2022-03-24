@@ -1,9 +1,21 @@
 import { SqlConnection } from "../server.js";
 
-export function test(req, res) {
-  let query = `SELECT * FROM users;`;
+export function authenticate(req, res) {
 
-  console.log("A request has been made to the /test endpoint");
+  let email, password, position = null;
+  email = req.query.email;
+  password = req.query.password;
+  position = req.query.position;
+  if (email == "" || password == "" || position == "") {
+    res.status(400).json({message: "Please make sure you have supplied an email address, password"});
+    return;
+  }
+  
+  let query = `SELECT userID, first, last 
+  FROM user JOIN employee AS E
+  WHERE userID=employeeID and email = "${email}"and password ="${password}" and position = "${position}";`;
+
+  console.log("A request has been made to the /authenticate endpoint");
   SqlConnection.query(query, function (err, result, fields) {
     if (err) {
       res.status(500).json(err);
@@ -12,7 +24,7 @@ export function test(req, res) {
     }
 
     if (result.length === 0) {
-      res.json({ message: "no matches found" });
+      res.status(404).json({ message: "No matches found"});
       return;
     }
 
@@ -22,7 +34,9 @@ export function test(req, res) {
 
 // req handler that returns a list of dentists
 export function dentistsInBranch(req, res) {
+  
   let branchid = req.query.branchid;
+  
   if (branchid === null) {
     res.status(400).json({message: "Please provide a branch id"});
     return;
@@ -52,7 +66,7 @@ export function dentistsInBranch(req, res) {
       return;
     }
 
-    res.json({ queryResults: result });
+    res.json({ queryResults: result[0] });
   });
 
 }

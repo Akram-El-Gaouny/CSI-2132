@@ -10,7 +10,7 @@ const Navbar = (props) => {
     
     <nav className= "sticky-top navbar navbar-expand-md navbar-dark my-navbar ">
      
-      <div class="navbar-brand"> DCMS</div>
+      <div className="navbar-brand"> DCMS</div>
       
       <button
         className="navbar-toggler"

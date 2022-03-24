@@ -58,7 +58,7 @@ CREATE TABLE PhoneNumber (
 -- Checking for valid phoneNumber
 ALTER TABLE PhoneNumber
 ADD CONSTRAINT valid_phoneNumber
-CHECK (phoneNumber BETWEEN 0 AND 999999999);
+CHECK (phoneNumber BETWEEN 0 AND 9999999999);
 
 -- Patient
 CREATE TABLE Patient (
