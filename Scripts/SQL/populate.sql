@@ -37,7 +37,7 @@ INSERT INTO Employee VALUES
     (2, 150000, "dentist", 2),
     (3, 80000, "receptionist", 2),
     (4, 95000, "hygienist", 2),
-    (5, 130000, "manager", 1),
+    (5, 130000, "manager", 1);
 
 -- insertions for ResponsibleFor
 
@@ -51,8 +51,20 @@ INSERT INTO ResponsibleFor VALUES
 -- insertions for Appointment
 -- insertions for FeeCharge
 -- insertions for AppointmentProcedure
+
 -- insertions for PatientPayment
+INSERT INTO PatientPayment(paymentDate, patientAmount, insuranceAmount, invoiceID, procedureID)
+    ("2022-02-17",150,150,null,1),
+    ("2022-02-17", 50, 0, null, 2),
+    ("2022-02-22",600,0,null,3),
+    ("2022-02-23", 300, 275, null, 4),
+    ("2022-02-27", 240, 0, null, 5);
+
 -- insertions for InsuranceClaim
+INSERT INTO(claimAmount, paymentId)
+    (150 , 1),
+    (275 , 4);
+
 -- insertions for Treatment
 -- insertions for Symptom
 -- insertions for Medication
