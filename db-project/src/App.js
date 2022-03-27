@@ -1,6 +1,7 @@
 import "./App.css";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
+import UserWelcome from "./components/layout/UserWelcome";
 import {
   BrowserRouter as Router,
   Switch,
@@ -17,7 +18,8 @@ function App() {
     id: null,
     firstName: null,
     lastName: null,
-    authenticated: null,
+    position: null,
+    authenticated: false
   });
 
 
@@ -34,7 +36,8 @@ function App() {
               { display: "Sign Up", path: "/CSI-2132" },
             ]}
           />
-        
+          <UserWelcome />
+
           <Footer />
         </Route>
 

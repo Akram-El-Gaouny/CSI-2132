@@ -7,7 +7,7 @@ const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [position, setPosition] = useState("patient");
-  const [message, setMessage] = useState("")
+  const [message, setMessage] = useState("");
   const user = useContext(UserContext);
 
   const authenticate = (e) => {
@@ -18,29 +18,30 @@ const SignIn = () => {
         `http://localhost:8000/authenticate?email=${email}&password=${password}&position=${position}`
       )
       .then(function (response) {
-      
         return response.data;
-      }).then((data) => {
-          user.setUser({
-            id: data.userId,
-            firstName: data.first,
-            lastName: data.last,
-            authenticated: true,
-          }
-          )
-          
-      }).catch( (err) =>{
-        console.log()
-        if (err.message === "Request failed with status code 400"){
-            setMessage("Please make sure that you have entered all the requested data.")
-        }else if (err.message === "Request failed with status code 500"){
-            setMessage("A server error has occured")
-        }else if (err.message === "Request failed with status code 404"){
-            setMessage("The user does not exist")
-        }
-       
-
       })
+      .then((data) => {
+        user.setUser({
+          id: data.userId,
+          firstName: data.first,
+          lastName: data.last,
+          position: data.position,
+          authenticated: true
+        });
+      })
+
+      .catch((err) => {
+        console.log();
+        if (err.message === "Request failed with status code 400") {
+          setMessage(
+            "Please make sure that you have entered all the requested data."
+          );
+        } else if (err.message === "Request failed with status code 500") {
+          setMessage("A server error has occured");
+        } else if (err.message === "Request failed with status code 404") {
+          setMessage("The user does not exist");
+        }
+      });
   };
 
   return (

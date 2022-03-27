@@ -11,7 +11,7 @@ export function authenticate(req, res) {
     return;
   }
   
-  let query = `SELECT userID, first, last 
+  let query = `SELECT userID, first, last, position
   FROM user JOIN employee AS E
   WHERE userID=employeeID and email = "${email}"and password ="${password}" and position = "${position}";`;
 
