@@ -2,11 +2,8 @@
     background-color: #242424;
     padding: 4rem 0 2rem 0;
     align-items: center;
-    position: fixed;
-    height: 270px;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
+    position: relative;
+    margin-top: 40px;    
   }
   
   .footer-subscription {
