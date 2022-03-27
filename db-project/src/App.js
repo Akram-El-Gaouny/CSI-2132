@@ -16,11 +16,11 @@ import HomePage from "./components/HomePage/homepage";
 
 function App() {
   const [user, setUser] = useState({
-    id: null,
-    firstName: null,
-    lastName: null,
-    position: null,
-    authenticated: false
+    id: 1,
+    first: "FirstN",
+    last: "LastN",
+    position: "Position",
+    authenticated: true,
   });
 
 
