@@ -13,6 +13,7 @@ import Receptionist from "./components/ReceptionistView/Receptionist.js";
 import { UserContext } from "./Contexts/UserContext";
 import SignIn from "./components/Authentication/signin";
 import HomePage from "./components/HomePage/homepage";
+import Branches from "./components/Branches/branches";
 
 function App() {
   const [user, setUser] = useState({
@@ -76,10 +77,22 @@ function App() {
             <Footer />
           </Route>
 
-          <Route exact path="/*">
-            <Redirect to={"/CSI-2132"} />
-          </Route>
-        </Switch>
+        <Route exact path="/CSI-2132/branches">
+          <Navbar
+            List={[
+              { display: "Clients", path: "/CSI-2132/" },
+              { display: "Doctors", path: "/CSI-2132" },
+              
+            ]}
+          />
+          <Branches />
+          <Footer />
+        </Route>
+
+        <Route exact path="/*">
+          <Redirect to={"/CSI-2132"} />
+        </Route>
+      </Switch>
       </UserContext.Provider>
     </Router>
   );

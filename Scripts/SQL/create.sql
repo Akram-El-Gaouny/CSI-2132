@@ -291,7 +291,7 @@ CHECK (charge >= 0.00);
 -- AppointmentProcedure
 CREATE TABLE AppointmentProcedure (
     procedureID INTEGER NOT NULL AUTO_INCREMENT,
-    procedureType VARCHAR(30) NOT NULL,
+    procedureType VARCHAR(30),
     amountOfProcedure INTEGER NOT NULL,
     employeeID INTEGER NOT NULL,
     appointmentID INTEGER NOT NULL,
