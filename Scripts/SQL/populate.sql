@@ -49,8 +49,23 @@ INSERT INTO ResponsibleFor VALUES
 -- insertions for Invoice
 -- insertions for PaymentType
 -- insertions for Appointment
+INSERT INTO Appointment VALUES
+    (00000001, 10006, 10002, null, "2022-02-17", "11:30:00", "12:00:00", "General exam", null),
+    (00000002, 10007, 10002, null, "2022-02-17", "13:30:00", "14:00:00", "Root Canal", null),
+    (00000003, 10008, 10002, null, "2022-02-22", "11:30:00", "12:00:00", "Filling", null),
+    (00000004, 10009, 10002, null, "2022-02-23", "11:30:00", "12:00:00", "Cleaning", null),
+    (00000005, 10010, 10002, null, "2022-02-27", "11:30:00", "12:00:00", "Implant", null);
+
+    
 -- insertions for FeeCharge
 -- insertions for AppointmentProcedure
+INSERT INTO AppointmentProcedure VALUES
+    (1, "Scaling", 1, 10002, 00000001, 2),
+    (2, "Composite", 1, 10002, 00000002, 1),
+    (1, null, 3, 10002, 00000003, 0),
+    (1, "Fluoride", 2, 10002, 00000004, 5),
+    (1, "Tooth Removal", 4, 10002, 00000005, 4);
+    
 
 -- insertions for PatientPayment
 INSERT INTO PatientPayment(paymentDate, patientAmount, insuranceAmount, invoiceID, procedureID)
