@@ -6,14 +6,15 @@ export function authenticate(req, res) {
   email = req.query.email;
   password = req.query.password;
   position = req.query.position;
-  if (email == "" || password == "" || position == "") {
+  role = req.query.role;
+  if (email == "" || password == "" || position == "" || role == "") {
     res.status(400).json({message: "Please make sure you have supplied an email address, password"});
     return;
   }
   
   let query = `SELECT userID, first, last, position
   FROM user JOIN employee AS E
-  WHERE userID=employeeID and email = "${email}"and password ="${password}" and position = "${position}";`;
+  WHERE userID=employeeID and email = "${email}"and password ="${password}" and ( position = "${position}" OR role = "${role}");`;
 
   console.log("A request has been made to the /authenticate endpoint");
   SqlConnection.query(query, function (err, result, fields) {

@@ -1,0 +1,9 @@
+.subViewTitle{
+    font-size: 25px;
+    font-weight: bold;
+    border-bottom: 1px solid black;
+}
+
+.subViewOutline{
+    border: 2px solid black;
+}
