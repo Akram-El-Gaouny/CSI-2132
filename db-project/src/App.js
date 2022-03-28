@@ -13,6 +13,7 @@ import {useState} from "react";
 import {UserContext} from "./Contexts/UserContext"
 import SignIn from "./components/Authentication/signin";
 import HomePage from "./components/HomePage/homepage";
+import Branches from "./components/Branches/branches";
 
 function App() {
   const [user, setUser] = useState({
@@ -33,7 +34,7 @@ function App() {
           <Navbar
             List={[
               { display: "Home Page", path: "/CSI-2132/homepage" },
-              { display: "Branches", path: "/CSI-2132" },
+              { display: "Branches", path: "/CSI-2132/branches" },
               { display: "Sign In", path: "/CSI-2132/signin" }
             ]}
           />
@@ -45,9 +46,7 @@ function App() {
         <Route exact path="/CSI-2132/signin">
           <Navbar
             List={[
-              { display: "Home Page", path: "/CSI-2132/homepage" },
-              { display: "Sign Up", path: "/CSI-2132" },
-              
+              { display: "Home Page", path: "/CSI-2132/homepage" },              
             ]}
           />
           <SignIn />
@@ -63,6 +62,18 @@ function App() {
             ]}
           />
           <HomePage />
+          <Footer />
+        </Route>
+
+        <Route exact path="/CSI-2132/branches">
+          <Navbar
+            List={[
+              { display: "Clients", path: "/CSI-2132/" },
+              { display: "Doctors", path: "/CSI-2132" },
+              
+            ]}
+          />
+          <Branches />
           <Footer />
         </Route>
 
