@@ -30,6 +30,13 @@ INSERT INTO Patient VALUES
 
 -- insertions for Branch
 -- insertions for Review
+INSERT INTO Review (professionalism, cleanliness, value, communication, userID, branchID, date) VALUES
+    (5, 5, 5 ,5 ,10006, 2, "2022-02-18"),
+    (4, 4, 4 ,4 ,10007, 2, "2022-02-24"),
+    (5, 5, 5 ,5 ,10008, 2, "2022-02-24"),
+    (5, 5, 5 ,5 ,10007, 2, "2022-02-25"),
+    (5, 5, 5 ,5 ,10009, 2, "2022-02-29");
+
 -- insertions for Employee
 
 INSERT INTO Employee VALUES 
@@ -47,6 +54,12 @@ INSERT INTO ResponsibleFor VALUES
 -- insertions for PatientChart
 -- insertions for Authored
 -- insertions for Invoice
+INSERT INTO Invoice (discount, patientCharge, totalFeeCharge, insuranceCharge, penalty, fulfillerID) VALUES
+    (0.0, 20.00, 80.00, 60.00, 0.00, 10006),
+    (0.0, 14.00, 14.00, 0.00, 14.00, 10008,
+    (0.0, 0.00, 75.00, 75.00, 0.00, 10009),
+    (0.0, 100.00, 400.00, 300.00, 0.00, 10002);
+    
 -- insertions for PaymentType
 -- insertions for Appointment
 INSERT INTO Appointment VALUES
@@ -58,6 +71,14 @@ INSERT INTO Appointment VALUES
 
     
 -- insertions for FeeCharge
+INSERT INTO FeeCharge (feeCode, charge, feeDesc) VALUES
+    (94303, 14.00, "No Show/Late Cancel"),
+    (94304, 200.00, "Composite"),
+    (94305, 80.00, "General Exam"),
+    (94306, 300.00, "Tooth Removal"),
+    (94307, 150.00, "Cleaning"),
+    (94308, 75.00, "Fluoride");
+
 -- insertions for AppointmentProcedure
 INSERT INTO AppointmentProcedure VALUES
     (1, "Scaling", 1, 10002, 00000001, 2),
