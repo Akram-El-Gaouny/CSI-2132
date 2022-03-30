@@ -18,6 +18,7 @@ const Addpatient = () => {
     insuranceProvidor: null
   };
 
+  
 function handleSubmit(){
 
    user.date = user.date.getYear() + "-" + user.date.getMonth() + "-" + user.date.getDay();
