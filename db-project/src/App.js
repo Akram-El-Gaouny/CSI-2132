@@ -28,71 +28,60 @@ function App() {
     <Router>
       <UserContext.Provider value={{ user, setUser }}>
         <Switch>
+          
           <Route exact path="/CSI-2132">
             <Navbar
               List={[
-                { display: "Home Page", path: "/CSI-2132/homepage" },
-                { display: "Branches", path: "/CSI-2132" },
-                { display: "Sign In", path: "/CSI-2132/signin" },
+                { display: "Sign In", path: "/CSI-2132/Sign In" },
+                { display: "Branches", path: "/CSI-2132/branches" },
               ]}
             />
-            <UserWelcome />
-
+            <HomePage />
+            <Footer />
             <Footer />
           </Route>
 
-          <Route exact path="/CSI-2132/Receptionist">
-            <Navbar
-              List={[
-                { display: "Home Page", path: "/CSI-2132/homepage" },
-                { display: "Branches", path: "/CSI-2132" },
-                { display: "Sign In", path: "/CSI-2132/signin" },
-              ]}
-            />
-            <UserWelcome />
-            <Receptionist />
-
-            <Footer />
-          </Route>
 
           <Route exact path="/CSI-2132/signin">
             <Navbar
               List={[
-                { display: "Home Page", path: "/CSI-2132/homepage" },
-                { display: "Sign Up", path: "/CSI-2132" },
+                { display: "Home Page", path: "/CSI-2132" },
+                {},
               ]}
             />
             <SignIn />
             <Footer />
           </Route>
 
-          <Route exact path="/CSI-2132/homepage">
+          <Route exact path="/CSI-2132/receptionist">
+            <Navbar
+              List={[
+                { display: "Home Page", path: "/CSI-2132/" },
+                { display: "Branches", path: "/CSI-2132/branches" },
+                {  },
+              ]}
+            />
+            <UserWelcome />
+            <Receptionist />
+            <Footer />
+          </Route>
+
+          <Route exact path="/CSI-2132/branches">
             <Navbar
               List={[
                 { display: "Clients", path: "/CSI-2132/" },
                 { display: "Doctors", path: "/CSI-2132" },
+
               ]}
             />
-            <HomePage />
+            <Branches />
             <Footer />
           </Route>
 
-        <Route exact path="/CSI-2132/branches">
-          <Navbar
-            List={[
-              { display: "Clients", path: "/CSI-2132/" },
-              { display: "Doctors", path: "/CSI-2132" },
-              
-            ]}
-          />
-          <Branches />
-          <Footer />
-        </Route>
-
-        <Route exact path="/*">
-          <Redirect to={"/CSI-2132"} />
-        </Route>
-      </Switch>
+          <Route exact path="/*">
+            <Redirect to={"/CSI-2132/"} />
+          </Route>
+        </Switch>
       </UserContext.Provider>
     </Router>
   );
