@@ -31,11 +31,11 @@ INSERT INTO Patient VALUES
 -- insertions for Branch
 -- insertions for Review
 INSERT INTO Review (professionalism, cleanliness, value, communication, userID, branchID, date) VALUES
-    (5, 5, 5 ,5 ,10006, 2, "2022-02-18"),
-    (4, 4, 4 ,4 ,10007, 2, "2022-02-24"),
-    (5, 5, 5 ,5 ,10008, 2, "2022-02-24"),
-    (5, 5, 5 ,5 ,10007, 2, "2022-02-25"),
-    (5, 5, 5 ,5 ,10009, 2, "2022-02-29");
+    (5, 5, 5 ,5 ,6, 2, "2022-02-18"),
+    (4, 4, 4 ,4 ,7, 2, "2022-02-24"),
+    (5, 5, 5 ,5 ,8, 2, "2022-02-24"),
+    (5, 5, 5 ,5 ,7, 2, "2022-02-25"),
+    (5, 5, 5 ,5 ,9, 2, "2022-02-29");
 
 -- insertions for Employee
 
@@ -55,19 +55,19 @@ INSERT INTO ResponsibleFor VALUES
 -- insertions for Authored
 -- insertions for Invoice
 INSERT INTO Invoice (discount, patientCharge, totalFeeCharge, insuranceCharge, penalty, fulfillerID) VALUES
-    (0.0, 20.00, 80.00, 60.00, 0.00, 10006),
-    (0.0, 14.00, 14.00, 0.00, 14.00, 10008,
-    (0.0, 0.00, 75.00, 75.00, 0.00, 10009),
-    (0.0, 100.00, 400.00, 300.00, 0.00, 10002);
+    (0.0, 20.00, 80.00, 60.00, 0.00, 6),
+    (0.0, 14.00, 14.00, 0.00, 14.00, 8,
+    (0.0, 0.00, 75.00, 75.00, 0.00, 9),
+    (0.0, 100.00, 400.00, 300.00, 0.00, 2);
     
 -- insertions for PaymentType
 -- insertions for Appointment
 INSERT INTO Appointment VALUES
-    (00000001, 10006, 10002, null, "2022-02-17", "11:30:00", "12:00:00", "General exam", null),
-    (00000002, 10007, 10002, null, "2022-02-17", "13:30:00", "14:00:00", "Root Canal", null),
-    (00000003, 10008, 10002, null, "2022-02-22", "11:30:00", "12:00:00", "Filling", null),
-    (00000004, 10009, 10002, null, "2022-02-23", "11:30:00", "12:00:00", "Cleaning", null),
-    (00000005, 10010, 10002, null, "2022-02-27", "11:30:00", "12:00:00", "Implant", null);
+    (00000001, 6, 2, null, "2022-02-17", "11:30:00", "12:00:00", "General exam", null),
+    (00000002, 7, 2, null, "2022-02-17", "13:30:00", "14:00:00", "Root Canal", null),
+    (00000003, 8, 2, null, "2022-02-22", "11:30:00", "12:00:00", "Filling", null),
+    (00000004, 9, 2, null, "2022-02-23", "11:30:00", "12:00:00", "Cleaning", null),
+    (00000005, 10, 2, null, "2022-02-27", "11:30:00", "12:00:00", "Implant", null);
 
     
 -- insertions for FeeCharge
@@ -81,15 +81,15 @@ INSERT INTO FeeCharge (feeCode, charge, feeDesc) VALUES
 
 -- insertions for AppointmentProcedure
 INSERT INTO AppointmentProcedure VALUES
-    (1, "Scaling", 1, 10002, 00000001, 2),
-    (2, "Composite", 1, 10002, 00000002, 1),
-    (1, null, 3, 10002, 00000003, 0),
-    (1, "Fluoride", 2, 10002, 00000004, 5),
-    (1, "Tooth Removal", 4, 10002, 00000005, 4);
+    (1, "Scaling", 1, 2, 00000001, 2),
+    (2, "Composite", 1, 2, 00000002, 1),
+    (1, null, 3, 2, 00000003, 0),
+    (1, "Fluoride", 2, 2, 00000004, 5),
+    (1, "Tooth Removal", 4, 2, 00000005, 4);
     
 
 -- insertions for PatientPayment
-INSERT INTO PatientPayment(paymentDate, patientAmount, insuranceAmount, invoiceID, procedureID)
+INSERT INTO PatientPayment(paymentDate, patientAmount, insuranceAmount, invoiceID, procedureID) VALUES
     ("2022-02-17",150,150,null,1),
     ("2022-02-17", 50, 0, null, 2),
     ("2022-02-22",600,0,null,3),
@@ -97,24 +97,24 @@ INSERT INTO PatientPayment(paymentDate, patientAmount, insuranceAmount, invoiceI
     ("2022-02-27", 240, 0, null, 5);
 
 -- insertions for InsuranceClaim
-INSERT INTO(claimAmount, paymentId)
+INSERT INTO InsuranceClaim  (claimAmount, paymentId) VALUES 
     (150 , 1),
     (275 , 4);
 
 -- insertions for Treatment
 INSERT INTO Treatment VALUES
-     (100001, 2, "Tooth 2 needs to be reviewed next exam", 1),
-     (100002, 5, "Root canal procedure completed + med", 2),
-     (100003, 2, "Filling of tooth 6 completed", 3),
-     (100004, 2, "Need to floss more", 4),
-     (100005, 2, "Need direct supervision on the implant", 5);
+     (1, 2, "Tooth 2 needs to be reviewed next exam", 1),
+     (2, 5, "Root canal procedure completed + med", 2),
+     (3, 2, "Filling of tooth 6 completed", 3),
+     (4, 2, "Need to floss more", 4),
+     (5, 2, "Need direct supervision on the implant", 5);
      
 -- insertions for Symptom
 -- insertions for Medication
 INSERT INTO Medication VALUES
-     (100001, "Local Anesthesia"),
-     (100002, "General Anesthesia"),
-     (100003, "Nitrous Oxide"),
-     (100004, "Intravenous Sedation"),
-     (100005, "Chlorhexidine");
+     (1, "Local Anesthesia"),
+     (2, "General Anesthesia"),
+     (3, "Nitrous Oxide"),
+     (4, "Intravenous Sedation"),
+     (5, "Chlorhexidine");
 

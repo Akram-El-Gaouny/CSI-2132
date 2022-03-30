@@ -23,9 +23,7 @@ function handleSubmit(){
    user.date = user.date.getYear() + "-" + user.date.getMonth() + "-" + user.date.getDay();
    console.log(user)
 
-   while(true){
-
-   }
+  
 }
 
   return (
@@ -80,6 +78,7 @@ function handleSubmit(){
               onChange={(e) => (user.SSN = e.target.value)}
               type="number"
               className="form-control"
+              min="0" max="999999999"
               required="required"
             />
           </div>
@@ -145,6 +144,7 @@ function handleSubmit(){
               type="number"
               className="form-control"
               required="required"
+              min = "1"
             />
           </div>
         </div>
