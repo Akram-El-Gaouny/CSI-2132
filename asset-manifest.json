@@ -1,13 +1,14 @@
 {
   "files": {
     "main.css": "/CSI-2132/static/css/main.cf78a703.css",
-    "main.js": "/CSI-2132/static/js/main.44c61b4a.js",
+    "main.js": "/CSI-2132/static/js/main.1b53af6b.js",
+    "static/media/dentist.jpeg": "/CSI-2132/static/media/dentist.9e8f5433131aac6e5026.jpeg",
     "index.html": "/CSI-2132/index.html",
     "main.cf78a703.css.map": "/CSI-2132/static/css/main.cf78a703.css.map",
-    "main.44c61b4a.js.map": "/CSI-2132/static/js/main.44c61b4a.js.map"
+    "main.1b53af6b.js.map": "/CSI-2132/static/js/main.1b53af6b.js.map"
   },
   "entrypoints": [
     "static/css/main.cf78a703.css",
-    "static/js/main.44c61b4a.js"
+    "static/js/main.1b53af6b.js"
   ]
 }
