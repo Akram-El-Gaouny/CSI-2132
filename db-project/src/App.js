@@ -32,8 +32,9 @@ function App() {
           <Route exact path="/CSI-2132">
             <Navbar
               List={[
-                { display: "Sign In", path: "/CSI-2132/Sign In" },
+                { display: "Sign In", path: "/CSI-2132/signin" },
                 { display: "Branches", path: "/CSI-2132/branches" },
+                { display: "Receptionist", path: "/CSI-2132/receptionist" }
               ]}
             />
             <HomePage />
@@ -58,7 +59,7 @@ function App() {
               List={[
                 { display: "Home Page", path: "/CSI-2132/" },
                 { display: "Branches", path: "/CSI-2132/branches" },
-                {  },
+                
               ]}
             />
             <UserWelcome />
