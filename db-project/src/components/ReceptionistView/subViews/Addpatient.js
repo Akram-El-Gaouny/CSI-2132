@@ -109,7 +109,7 @@ function handleSubmit(){
         </div>
 
         <div className="form-group row">
-          <label className="col-6 col-form-label">Date</label>
+          <label className="col-6 col-form-label">Date of Birth</label>
           <div className="col-6">
             <input
               onChange={(e) =>  user.date = e.target.value }
@@ -204,7 +204,7 @@ function handleSubmit(){
         <div className="form-group row">
           <div className="offset-6 col-6">
             <button name="submit" type="submit" className="btn btn-primary">
-              Submit
+              Add Patient
             </button>
           </div>
         </div>

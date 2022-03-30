@@ -13,3 +13,8 @@
     font-weight: bold;
     border-bottom: 1px solid black;
 }
+
+.Search-Button{
+    color: white;
+    background-color: rgb(50, 150, 233);
+}
