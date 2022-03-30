@@ -102,6 +102,19 @@ INSERT INTO(claimAmount, paymentId)
     (275 , 4);
 
 -- insertions for Treatment
+INSERT INTO Treatment VALUES
+     (100001, 2, "Tooth 2 needs to be reviewed next exam", 1),
+     (100002, 5, "Root canal procedure completed + med", 2),
+     (100003, 2, "Filling of tooth 6 completed", 3),
+     (100004, 2, "Need to floss more", 4),
+     (100005, 2, "Need direct supervision on the implant", 5);
+     
 -- insertions for Symptom
 -- insertions for Medication
+INSERT INTO Medication VALUES
+     (100001, "Local Anesthesia"),
+     (100002, "General Anesthesia"),
+     (100003, "Nitrous Oxide"),
+     (100004, "Intravenous Sedation"),
+     (100005, "Chlorhexidine");
 
