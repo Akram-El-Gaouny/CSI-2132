@@ -39,7 +39,6 @@ function App() {
             />
             <HomePage />
             <Footer />
-            <Footer />
           </Route>
 
 
@@ -47,7 +46,6 @@ function App() {
             <Navbar
               List={[
                 { display: "Home Page", path: "/CSI-2132" },
-                {},
               ]}
             />
             <SignIn />
