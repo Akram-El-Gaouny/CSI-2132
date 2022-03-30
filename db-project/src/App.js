@@ -28,26 +28,20 @@ function App() {
     <Router>
       <UserContext.Provider value={{ user, setUser }}>
         <Switch>
-          
           <Route exact path="/CSI-2132">
             <Navbar
               List={[
                 { display: "Sign In", path: "/CSI-2132/signin" },
                 { display: "Branches", path: "/CSI-2132/branches" },
-                { display: "Receptionist", path: "/CSI-2132/receptionist" }
+                { display: "Receptionist", path: "/CSI-2132/receptionist" },
               ]}
             />
             <HomePage />
             <Footer />
           </Route>
 
-
           <Route exact path="/CSI-2132/signin">
-            <Navbar
-              List={[
-                { display: "Home Page", path: "/CSI-2132" },
-              ]}
-            />
+            <Navbar List={[{ display: "Home Page", path: "/CSI-2132" }]} />
             <SignIn />
             <Footer />
           </Route>
@@ -57,7 +51,6 @@ function App() {
               List={[
                 { display: "Home Page", path: "/CSI-2132/" },
                 { display: "Branches", path: "/CSI-2132/branches" },
-                
               ]}
             />
             <UserWelcome />
@@ -70,7 +63,6 @@ function App() {
               List={[
                 { display: "Clients", path: "/CSI-2132/" },
                 { display: "Doctors", path: "/CSI-2132" },
-
               ]}
             />
             <Branches />
