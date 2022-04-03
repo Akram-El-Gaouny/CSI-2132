@@ -4,6 +4,7 @@ import { SqlConnection } from "../server.js";
 export function authenticate(req, res) {
   let email,
     password,
+    role,
     position = null;
   email = req.query.email;
   password = req.query.password;
@@ -181,4 +182,167 @@ export function feesDescriptions(req, res) {
       message: "Here are the available results",
     });
   });
+}
+
+export function addPatient(req, res) {
+  let fname, mname, lname, pemail, pass, hnum, str, cty, prov, dob, pssn = null;
+  fname = req.query.fname;
+  mname = req.query.mname;
+  lname = req.query.lname;
+  pemail = req.query.pemail;
+  pass = req.query.pass;
+  hnum = req.query.hnum;
+  str = req.query.str;
+  cty = req.query.cty;
+  prov = req.query.prov;
+  dob = req.query.dob;
+  pssn = req.query.pssn;
+
+
+  if (fname === null) {
+      res.status(400).json({message: "Please provide a first name"});
+      return;
+  }
+  
+  if (lname === null) {
+      res.status(400).json({message: "Please provide a last name"});
+      return;
+  }
+
+  if (pemail === null) {
+      res.status(400).json({message: "Please provide an email"});
+      return;
+  }
+
+  if (pass === null) {
+      res.status(400).json({message: "Please provide a password"});
+      return;
+  }
+
+  if (hnum === null) {
+      res.status(400).json({message: "Please provide a house number"});
+      return;
+  }
+
+  if (str === null) {
+      res.status(400).json({message: "Please provide a street name"});
+      return;
+  }
+
+  if (cty === null) {
+      res.status(400).json({message: "Please provide a city"});
+      return;
+  }
+
+  if (prov === null) {
+      res.status(400).json({message: "Please provide a province"});
+      return;
+  }
+
+  if (dob === null) {
+      res.status(400).json({message: "Please provide a date of birth"});
+      return;
+  }
+
+  if (pssn === null) {
+      res.status(400).json({message: "Please provide a social security number"});
+      return;
+  }
+
+  console.log("A request has been made to the /addPatient endpoint");
+  
+  let query = `
+      INSERT INTO User
+      (first, middle, last, email, password, houseNumber, street, city, province, role, dateOfBirth, ssn) 
+      VALUES 
+      ("${fname}", "${mname}", "${lname}", "${pemail}", "${pass}", ${hnum}, "${str}", "${cty}", "${prov}", "patient", "${dob}", ${pssn});
+  `;
+
+  SqlConnection.query(query, function (err, result, fields) {
+
+  if (err) {
+      res.status(500).json(err);
+      console.error("An error occurred at the addPatient endpoint,", "Error Code: " + err.code +",", "Error Message: " + err.sqlMessage);
+      return;
+  } else {
+    console.log("A patient has successfully been added to the DB");
+    res.json( {uid: result.insertId} )
+  }
+  });
+  
+}
+
+export function addPhone(req, res) {
+  let uid, pnums = null;
+  uid = req.query.uid;
+  pnums = req.query.pnums;
+
+  if (uid === null) {
+      res.status(400).json({message: "Please provide a uid"});
+      return;
+  }
+
+  console.log("A request has been made to the /addPhone endpoint");
+
+  pnums.split(",").forEach(element => {
+    let query2 = `
+      INSERT INTO PhoneNumber
+      (userId, phoneNumber) 
+      VALUES 
+      (${uid}, ${element});
+    `;
+    SqlConnection.query(query2, function (err, result, fields) {
+
+      if (err) {
+          res.status(500).json(err);
+          console.error("An error occurred at the addPatient endpoint,", "Error Code: " + err.code +",", "Error Message: " + err.sqlMessage);
+          return;
+      } else {
+        console.log("A phone number has successfully been added to the DB");
+      }
+      });
+  });
+
+  res.status(200);
+  
+}
+
+export function addPatientInsurance(req, res) {
+  let uid, ins = null;
+  uid = req.query.uid;
+  ins = req.query.ins;
+
+  if (uid === null) {
+      res.status(400).json({message: "Please provide a uid"});
+      return;
+  }
+
+  console.log("A request has been made to the /addPatientInsurance endpoint");
+
+  let query3 = (ins == null ? `
+    INSERT INTO Patient
+    (patientId, insuranceProvider) 
+    VALUES 
+    (${uid}, null);
+  `
+  : 
+  `
+    INSERT INTO Patient
+    (patientId, insuranceProvider) 
+    VALUES 
+    (${uid}, "${ins}");
+  `)
+  SqlConnection.query(query3, function (err, result, fields) {
+
+    if (err) {
+        res.status(500).json(err);
+        console.error("An error occurred at the addPatient endpoint,", "Error Code: " + err.code +",", "Error Message: " + err.sqlMessage);
+        return;
+    } else {
+      console.log("A patient insurance provider has successfully been added to the DB");
+    }
+  });
+
+  res.status(200);
+  
 }
