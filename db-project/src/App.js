@@ -14,6 +14,7 @@ import { UserContext } from "./Contexts/UserContext";
 import SignIn from "./components/Authentication/signin";
 import HomePage from "./components/HomePage/homepage";
 import Branches from "./components/Branches/branches";
+import DentistHygienistView from "./components/DentistHygienistView/DentistHygienistView.js";
 
 function App() {
   const [user, setUser] = useState({
@@ -34,6 +35,7 @@ function App() {
                 { display: "Sign In", path: "/CSI-2132/signin" },
                 { display: "Branches", path: "/CSI-2132/branches" },
                 { display: "Receptionist", path: "/CSI-2132/receptionist" },
+                { display: "Dentist", path: "/CSI-2132/dentist" },
               ]}
             />
             <HomePage />
@@ -55,6 +57,18 @@ function App() {
             />
             <UserWelcome />
             <Receptionist />
+            <Footer />
+          </Route>
+
+          <Route exact path="/CSI-2132/dentist">
+            <Navbar
+              List={[
+                { display: "Home Page", path: "/CSI-2132/" },
+                { display: "Branches", path: "/CSI-2132/branches" },
+              ]}
+            />
+            <UserWelcome />
+            <DentistHygienistView />
             <Footer />
           </Route>
 
