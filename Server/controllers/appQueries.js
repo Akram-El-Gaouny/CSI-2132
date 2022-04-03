@@ -184,8 +184,8 @@ export function feesDescriptions(req, res) {
   });
 }
 
-export function addPatient(req, res) {
-  let fname, mname, lname, pemail, pass, hnum, str, cty, prov, dob, pssn = null;
+export function addUser(req, res) {
+  let fname, mname, lname, pemail, pass, hnum, str, cty, prov, role, dob, pssn = null;
   fname = req.query.fname;
   mname = req.query.mname;
   lname = req.query.lname;
@@ -195,6 +195,7 @@ export function addPatient(req, res) {
   str = req.query.str;
   cty = req.query.cty;
   prov = req.query.prov;
+  role = req.query.role;
   dob = req.query.dob;
   pssn = req.query.pssn;
 
@@ -239,6 +240,11 @@ export function addPatient(req, res) {
       return;
   }
 
+  if (role === null) {
+    res.status(400).json({message: "Please provide a role"});
+    return;
+  }
+
   if (dob === null) {
       res.status(400).json({message: "Please provide a date of birth"});
       return;
@@ -249,23 +255,23 @@ export function addPatient(req, res) {
       return;
   }
 
-  console.log("A request has been made to the /addPatient endpoint");
+  console.log("A request has been made to the /addUser endpoint");
   
   let query = `
       INSERT INTO User
       (first, middle, last, email, password, houseNumber, street, city, province, role, dateOfBirth, ssn) 
       VALUES 
-      ("${fname}", "${mname}", "${lname}", "${pemail}", "${pass}", ${hnum}, "${str}", "${cty}", "${prov}", "patient", "${dob}", ${pssn});
+      ("${fname}", "${mname}", "${lname}", "${pemail}", "${pass}", ${hnum}, "${str}", "${cty}", "${prov}", "${role}", "${dob}", ${pssn});
   `;
 
   SqlConnection.query(query, function (err, result, fields) {
 
   if (err) {
       res.status(500).json(err);
-      console.error("An error occurred at the addPatient endpoint,", "Error Code: " + err.code +",", "Error Message: " + err.sqlMessage);
+      console.error("An error occurred at the addUser endpoint,", "Error Code: " + err.code +",", "Error Message: " + err.sqlMessage);
       return;
   } else {
-    console.log("A patient has successfully been added to the DB");
+    console.log("A user has successfully been added to the DB");
     res.json( {uid: result.insertId} )
   }
   });
