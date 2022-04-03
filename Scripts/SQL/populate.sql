@@ -1,5 +1,4 @@
 -- insertions for User
-
 INSERT INTO User (first, middle, last, email, password, housenumber, street, city, province, role, dateOfBirth, age, ssn) VALUES
     ("Jeff", "Mary", "Yi", "yi@gmail.com", "pass12", 13, "Wallace", "Toronto", "Ontario", "employee", '1984-07-15', 37, 516547887),
     ("Tim", "Steve", "Thomas", "thomas@gmail.com", "timsteve", 222, "Robin", "Toronto", "Ontario", "employee", '1980-05-07', 41, 155235968),
@@ -13,14 +12,12 @@ INSERT INTO User (first, middle, last, email, password, housenumber, street, cit
     ("Steve", "John", "Thomas", "steve@gmail.com", "dentist", 32, "Main", "Toronto", "Ontario", "patient", '2009-05-19', 12, 155223468);
 
 -- insertions for PhoneNumber
-
-INSERT INTO PhoneNumber VALUES 
-    (2, 6138556588),
+INSERT INTO PhoneNumber(userID, phoneNumber) VALUES 
+    (1, 6138556588),
     (2, 7745665654),
     (4, 4224256884);
 
 -- insertions for Patient
-
 INSERT INTO Patient VALUES
     (6, "Dejardin"),
     (7, "Gold"),
@@ -29,6 +26,10 @@ INSERT INTO Patient VALUES
     (10, NULL);
 
 -- insertions for Branch
+INSERT INTO Branch (branchID, houseNumber, street, city, province) VALUES
+	(1, 123, "Street", "Ottawa", "Ontario"),
+    (2, 456, "Road", "Gatineau", "Quebec");
+
 -- insertions for Review
 INSERT INTO Review (professionalism, cleanliness, value, communication, userID, branchID, date) VALUES
     (5, 5, 5 ,5 ,6, 2, "2022-02-18"),
@@ -38,7 +39,6 @@ INSERT INTO Review (professionalism, cleanliness, value, communication, userID, 
     (5, 5, 5 ,5 ,9, 2, "2022-02-29");
 
 -- insertions for Employee
-
 INSERT INTO Employee VALUES 
     (1, 120000, "manager", 2),
     (2, 150000, "dentist", 2),
@@ -47,12 +47,25 @@ INSERT INTO Employee VALUES
     (5, 130000, "manager", 1);
 
 -- insertions for ResponsibleFor
-
 INSERT INTO ResponsibleFor VALUES
     (10, 2);
 
 -- insertions for PatientChart
+INSERT INTO PatientChart(recordID, patientID) VALUES
+	(111000, 10006),
+    (111001, 10007),
+    (111002, 10008),
+    (111003, 10009),
+    (111004, 10010);
+
 -- insertions for Authored
+INSERT INTO Authored(employeeID, chartID) VALUES
+	(10001, 000100),
+    (10002, 000200),
+    (10003, 000300),
+    (10004, 000400),
+    (10005, 000500);
+
 -- insertions for Invoice
 INSERT INTO Invoice (discount, patientCharge, totalFeeCharge, insuranceCharge, penalty, fulfillerID) VALUES
     (0.0, 20.00, 80.00, 60.00, 0.00, 6),
@@ -61,6 +74,12 @@ INSERT INTO Invoice (discount, patientCharge, totalFeeCharge, insuranceCharge, p
     (0.0, 100.00, 400.00, 300.00, 0.00, 2);
     
 -- insertions for PaymentType
+INSERT INTO PaymentType (invoiceID, paymentType) VALUES
+	(00001, "Amex"),
+    (00002, "VISA"),
+    (00003, "Cash"),
+    (00004, "Mastercard");
+
 -- insertions for Appointment
 INSERT INTO Appointment VALUES
     (00000001, 6, 2, null, "2022-02-17", "11:30:00", "12:00:00", "General exam", null),
@@ -69,7 +88,6 @@ INSERT INTO Appointment VALUES
     (00000004, 9, 2, null, "2022-02-23", "11:30:00", "12:00:00", "Cleaning", null),
     (00000005, 10, 2, null, "2022-02-27", "11:30:00", "12:00:00", "Implant", null);
 
-    
 -- insertions for FeeCharge
 INSERT INTO FeeCharge (feeCode, charge, feeDesc) VALUES
     (94303, 14.00, "No Show/Late Cancel"),
@@ -86,7 +104,6 @@ INSERT INTO AppointmentProcedure VALUES
     (1, null, 3, 2, 00000003, 0),
     (1, "Fluoride", 2, 2, 00000004, 5),
     (1, "Tooth Removal", 4, 2, 00000005, 4);
-    
 
 -- insertions for PatientPayment
 INSERT INTO PatientPayment(paymentDate, patientAmount, insuranceAmount, invoiceID, procedureID) VALUES
@@ -97,7 +114,7 @@ INSERT INTO PatientPayment(paymentDate, patientAmount, insuranceAmount, invoiceI
     ("2022-02-27", 240, 0, null, 5);
 
 -- insertions for InsuranceClaim
-INSERT INTO InsuranceClaim  (claimAmount, paymentId) VALUES 
+INSERT INTO InsuranceClaim (claimAmount, paymentId) VALUES 
     (150 , 1),
     (275 , 4);
 
@@ -110,6 +127,13 @@ INSERT INTO Treatment VALUES
      (5, 2, "Need direct supervision on the implant", 5);
      
 -- insertions for Symptom
+INSERT INTO Sympton (procedureID, symptomDescription) VALUES
+	(100001, "Dark spot on tooth 2"),
+    (100002, "Sore teeth, might need root canal."),
+    (100003, "Cavity in tooth 6."),
+    (100004, "Weak gums, bleeds when flossing."),
+    (100005, "Implant faulty, need supervision.");
+
 -- insertions for Medication
 INSERT INTO Medication VALUES
      (1, "Local Anesthesia"),
