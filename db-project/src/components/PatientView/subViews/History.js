@@ -1,66 +1,67 @@
 import "./subViews.css";
 
-const History = (appointments) => {
+const History = (procedures) => {
 
-    appointments = [
+    procedures = [
         {date: "Date1",
         type: "type1",
         dentist: "name1",
-        status: "completed",
-        totalCost: "cost",
-        insuranceCost: "insurance"
+        symptoms: "symptoms",
+        medication: "medication",
+        comment: "comment"
         },
         {date: "Date2",
         type: "type2",
         dentist: "name2",
-        status: "completed",
-        totalCost: "cost",
-        insuranceCost: "insurance"
+        symptoms: "symptoms",
+        medication: "medication",
+        comment: "comment"
         },
         {date: "Date3",
         type: "type3",
         dentist: "name3",
-        status: "completed",
-        totalCost: "cost",
-        insuranceCost: "insurance"
+        symptoms: "symptoms",
+        medication: "medication",
+        comment: "comment"
         },
         {date: "Date4",
         type: "type4",
         dentist: "name4",
-        status: "completed",
-        totalCost: "cost",
-        insuranceCost: "insurance"
+        symptoms: "symptoms",
+        medication: "medication",
+        comment: "comment"
         }
     ]
 
-    const noAppointments = () => {
+    const noProcedures = () => {
         return (
             <div className="text-center">
-                You have no past appointments...
+                You have no past proceduress...
             </div>
         );
     }
 
-    const renderHistory = (appointment) => {
+    
+    const renderHistory = (procedure) => {
         return (
             <div className="row">
                 <div className="col">
-                    {appointment.date}
+                    {procedure.date}
                 </div>
                 <div className="col">
-                    {appointment.type}
+                    {procedure.type}
                 </div>
                 <div className="col">
-                    {appointment.dentist}
+                    {procedure.dentist}
                 </div>
                 <div className="col">
-                    {appointment.status}
+                    {procedure.symptoms}
                 </div>
                 <div className="col">
-                    {appointment.totalCost}
+                    {procedure.medication}
                 </div>
                 <div className="col">
-                    {appointment.insuranceCost}
+                    {procedure.comment}
                 </div>
             </div>
         );
@@ -84,16 +85,16 @@ const History = (appointments) => {
                 Dentist:
             </div>
             <div className="col">
-                Status:
+                Symptoms:
             </div>
             <div className="col">
-                Total Cost:
+                Medication:
             </div>
             <div className="col">
-                Insurance Cost:
+                Comment:
             </div>
         </div>
-        {appointments.length === 0 ? noAppointments() : appointments.map(renderHistory)}
+        {procedures.length === 0 ? noProcedures() : procedures.map(renderHistory)}
       </div>
       
     </div>
