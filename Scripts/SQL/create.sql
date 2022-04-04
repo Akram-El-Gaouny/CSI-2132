@@ -50,7 +50,7 @@ CHECK (province in ("Alberta", "British Columbia", "Manitoba", "New Brunswick", 
 -- PhoneNumber
 CREATE TABLE PhoneNumber (
     userID INTEGER NOT NULL,
-    phoneNumber INTEGER NOT NULL,
+    phoneNumber VARCHAR(10) NOT NULL,
     PRIMARY KEY (userID, phoneNumber),
     FOREIGN KEY (userID) REFERENCES User(userID)
 );
@@ -58,8 +58,7 @@ CREATE TABLE PhoneNumber (
 -- Checking for valid phoneNumber
 ALTER TABLE PhoneNumber
 ADD CONSTRAINT valid_phoneNumber
-CHECK (phoneNumber BETWEEN 0 AND 9999999999);
-
+CHECK (CHAR_LENGTH(phoneNumber) = 10);
 -- Patient
 CREATE TABLE Patient (
     patientID INTEGER NOT NULL,
@@ -271,11 +270,10 @@ CHECK ( status in ("completed", "no show", "late cancelation", "canceled") );
 
 -- FeeCharge
 CREATE TABLE FeeCharge (
-    feeID INTEGER NOT NULL AUTO_INCREMENT,
     feeCode INTEGER NOT NULL,
     charge DECIMAL(10,2) NOT NULL,
     feeDesc VARCHAR(30) NOT NULL,
-    PRIMARY KEY (feeID)
+    PRIMARY KEY (feeCode)
 );
 
 -- Checking for valid fee code
@@ -295,11 +293,11 @@ CREATE TABLE AppointmentProcedure (
     amountOfProcedure INTEGER NOT NULL,
     employeeID INTEGER NOT NULL,
     appointmentID INTEGER NOT NULL,
-    feeID INTEGER NOT NULL,
+    feeCode INTEGER NOT NULL,
     PRIMARY KEY (procedureID),
     FOREIGN KEY (employeeID) REFERENCES Employee(employeeID),
     FOREIGN KEY (appointmentID) REFERENCES Appointment(appointmentID),
-    FOREIGN KEY (feeID) REFERENCES FeeCharge(feeID)
+    FOREIGN KEY (feeCode) REFERENCES FeeCharge(feeCode)
 );
 
 -- Checking that AppointmentProcedure is positive and not 0
@@ -348,7 +346,7 @@ CHECK (claimAmount >= 0);
 CREATE TABLE Treatment (
     procedureID INTEGER NOT NULL,
     tooth INTEGER NOT NULL,
-    comment VARCHAR(20),
+    comment VARCHAR(90),
     recordID INTEGER NOT NULL,
     FOREIGN KEY (recordID) REFERENCES PatientChart(recordID),
     FOREIGN KEY (procedureID) REFERENCES AppointmentProcedure(procedureID)
@@ -362,7 +360,7 @@ CHECK (tooth >= 1 and tooth <= 32);
 -- Symptom
 CREATE TABLE Symptom (
     procedureID INTEGER NOT NULL,
-    symptomDescription VARCHAR(20) NOT NULL,
+    symptomDescription VARCHAR(90) NOT NULL,
     PRIMARY KEY (procedureID, symptomDescription),
     FOREIGN KEY (procedureID) REFERENCES AppointmentProcedure(procedureID)
 );
@@ -370,7 +368,7 @@ CREATE TABLE Symptom (
 -- Medication
 CREATE TABLE Medication (
     procedureID INTEGER NOT NULL,
-    medicationName VARCHAR(20) NOT NULL,
+    medicationName VARCHAR(40) NOT NULL,
     PRIMARY KEY (procedureID, medicationName),
     FOREIGN KEY (procedureID) REFERENCES AppointmentProcedure(procedureID)
 );
