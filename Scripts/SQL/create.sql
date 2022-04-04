@@ -10,7 +10,6 @@ CREATE TABLE User (
     street VARCHAR(30) NOT NULL,
     city VARCHAR(30) NOT NULL,
     province VARCHAR(30) NOT NULL,
-    role VARCHAR(30) NOT NULL,
     dateOfBirth DATE NOT NULL,
     age INTEGER NOT NULL,
     ssn INTEGER UNIQUE,
