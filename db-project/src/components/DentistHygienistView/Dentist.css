@@ -1,3 +1,13 @@
 
- 
-  
+   .receptionist-options .col{
+    background-color: rgb(192, 192, 192);
+    font-size: 25px;
+    font-weight: bold;
+    border: 2px solid white;
+}
+
+.receptionist-options .col:hover{
+    background-color: rgb(0, 0, 0) !important;
+    font-size: 25px !important;
+    color: white !important;
+}
