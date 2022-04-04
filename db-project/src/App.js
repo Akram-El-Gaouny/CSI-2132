@@ -17,13 +17,16 @@ import HomePage from "./components/HomePage/homepage";
 import Branches from "./components/Branches/branches";
 import DentistHygienistView from "./components/DentistHygienistView/DentistHygienistView.js";
 
+
+
 function App() {
+
   const [user, setUser] = useState({
     id: 1,
-    first: "FirstN",
-    last: "LastN",
+    firstName: "FirstN",
+    lastName: "LastN",
     position: "Position",
-    authenticated: true,
+    authenticated: false,
   });
 
   return (

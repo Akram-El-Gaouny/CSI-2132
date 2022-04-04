@@ -414,3 +414,66 @@ export function addPatientInsurance(req, res) {
 
   res.status(200);
 }
+
+export function patientBySSN(req, res) {
+  let SSN = req.query.SSN;
+
+  let query = `
+  SELECT * 
+  FROM user 
+  WHERE SSN = "${SSN}" and role = "patient"; 
+  `;
+
+  SqlConnection.query(query, function (err, result, fields) {
+    if (err) {
+      res.status(500).json(err);
+      console.error(
+        "An error occurred at the userBySSN endpoint,",
+        "Error Code: " + err.code + ",",
+        "Error Message: " + err.sqlMessage
+      );
+      return;
+    }
+
+    if (result.length === 0) {
+      res.status(400).json({ message: "no matches found" });
+      return;
+    }
+
+    res.status(200).json({
+      user: result[0],
+    });
+  });
+}
+
+export function deletePatient(req, res) {
+  let SSN = req.query.SSN;
+
+  if (SSN === undefined) {
+    res.status(400).json({ message: "Please provide an SSN"})
+  }
+
+  let query = `
+    DELETE FROM user WHERE ssn="${SSN}" and role = "patient";
+  `;
+
+  SqlConnection.query(query, function (err, result, fields) {
+    if (err) {
+      res.status(500).json(err);
+      console.error(
+        "An error occurred at the deleteBySSN endpoint,",
+        "Error Code: " + err.code + ",",
+        "Error Message: " + err.sqlMessage
+      );
+      return;
+    }
+
+    if (result.length === 0) {
+      res.status(400).json({ message: "no matches found" });
+      return;
+    }
+
+    res.status(200);
+  });
+
+}

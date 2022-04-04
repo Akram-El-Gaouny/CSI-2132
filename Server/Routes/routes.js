@@ -1,6 +1,6 @@
 import express from 'express';
 import {health} from "../controllers/healthController.js";
-import {authenticatePatient,authenticateEmployee, dentistsInBranch, appointmentsByDentist, appointmentsByPatient, feesDescriptions, addUser, addPhone, addPatientInsurance} from "../controllers/appQueries.js";
+import {deletePatient,patientBySSN ,authenticatePatient,authenticateEmployee, dentistsInBranch, appointmentsByDentist, appointmentsByPatient, feesDescriptions, addUser, addPhone, addPatientInsurance} from "../controllers/appQueries.js";
 const Router = express.Router();
 
 // get requests
@@ -11,8 +11,10 @@ Router.get("/dentistsInBranch", dentistsInBranch)
 Router.get("/appointmentsByDentist", appointmentsByDentist)
 Router.get("/appointmentsByPatient", appointmentsByPatient)
 Router.get("/feeDescriptions", feesDescriptions)
-Router.get("/addUser", addUser)
-Router.put("/addPhone", addPhone)
-Router.put("/addPatientInsurance", addPatientInsurance)
+Router.get("/patientBySSN",patientBySSN)
+Router.post("/addUser", addUser)
+Router.post("/addPhone", addPhone)
+Router.post("/addPatientInsurance", addPatientInsurance)
+Router.delete("/deletePatient", deletePatient)
 
 export default Router;

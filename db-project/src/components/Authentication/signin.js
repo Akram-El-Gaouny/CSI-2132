@@ -2,6 +2,7 @@ import "./signin.css";
 import { useState, useContext } from "react";
 import { UserContext } from "../../Contexts/UserContext";
 import axios from "axios";
+import { useHistory } from 'react-router-dom';
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -9,39 +10,65 @@ const SignIn = () => {
   const [position, setPosition] = useState("patient");
   const [message, setMessage] = useState("");
   const user = useContext(UserContext);
-
+  const h = useHistory();
   const authenticate = (e) => {
+
     e.preventDefault();
+
+    let endpoint = `http://localhost:8000/authenticatePatient?email=${email}&password=${password}`
+
+    if (position !== "patient"){
+      endpoint = `http://localhost:8000/authenticateEmployee?email=${email}&password=${password}&position=${position.toLowerCase()}`
+    }
 
     axios
       .get(
-        `http://localhost:8000/authenticate?email=${email}&password=${password}&position=${position}`
+        endpoint
       )
       .then(function (response) {
-        return response.data;
+        return response.data.queryResults[0];
       })
       .then((data) => {
+    
         user.setUser({
-          id: data.userId,
+          id: data.userID,
           firstName: data.first,
           lastName: data.last,
-          position: data.position,
+          position: position,
           authenticated: true
-        });
+        }); 
+
+
+        if (position === "patient"){
+          h.push("/CSI-2132/patient")
+        }else if (position === "receptionist"){
+          h.push("/CSI-2132/receptionist")
+        }else if (position === "dentist" || position === "hygenist"){
+          h.push("/CSI-2132/dentist")
+        }
+  
       })
 
+
       .catch((err) => {
-        console.log();
         if (err.message === "Request failed with status code 400") {
           setMessage(
             "Please make sure that you have entered all the requested data."
           );
+          return;
         } else if (err.message === "Request failed with status code 500") {
           setMessage("A server error has occured");
+          return;
         } else if (err.message === "Request failed with status code 404") {
-          setMessage("The user does not exist");
+          setMessage("Incorrect username or password");
+          return;
         }
       });
+
+    
+
+
+
   };
 
   return (

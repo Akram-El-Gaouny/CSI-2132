@@ -14,6 +14,7 @@ CREATE TABLE User (
     age INTEGER NOT NULL,
     ssn INTEGER UNIQUE,
     PRIMARY KEY (userID)
+    ON DELETE CASCADE
 );
 
 -- Calculate age
@@ -64,6 +65,7 @@ CREATE TABLE Patient (
     insuranceProvider VARCHAR(30),
     PRIMARY KEY (patientID),
     FOREIGN KEY (patientID) REFERENCES User(userID)
+    ON DELETE CASCADE
 );
 
 -- Branch

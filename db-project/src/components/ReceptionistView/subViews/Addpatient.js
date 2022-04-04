@@ -1,4 +1,6 @@
 import "./subViews.css";
+import axios from "axios";
+
 
 const Addpatient = () => {
   let user = {
@@ -19,12 +21,38 @@ const Addpatient = () => {
   };
 
   
-function handleSubmit(){
+function handleSubmit(e){
 
-   user.date = user.date.getYear() + "-" + user.date.getMonth() + "-" + user.date.getDay();
-   console.log(user)
+  let AddPatientInfo = `http://localhost:8000/addUser?fname=${user.first}&mname=${user.middle}&lname=${user.last}&pemail=${user.email}&pass=${user.password}&hnum=${user.housenumber}&str=${user.street}&cty=${user.city}&prov=${user.province}&role=${user.role}&dob=${user.dateOfBirth}&pssn=${user.SSN}`
 
-  
+  axios.post(AddPatientInfo).then((response) => {
+    let uid = response.data.uid;
+
+    if (uid !== undefined){
+      let AddInsurance = `http://localhost:8000/addPatientInsurance?uid=${uid}&ins=${user.insuranceProvidor}`
+      axios.post(AddInsurance).catch( (err) => {
+        alert(err.message)
+        return;
+      }) 
+
+      
+      let AddPhone = `http://localhost:8000/addPhone?uid=${uid}&pnums=${user.phonenumbers}`
+      axios.post(AddPhone).catch( (err) => {
+        alert(err.message)
+        return;
+      }) 
+
+      alert("Successfully added!")
+    }
+
+   
+
+  }).catch( (err) => {
+    alert(err.message)
+    return;
+  });
+ 
+
 }
 
   return (
@@ -34,7 +62,7 @@ function handleSubmit(){
       </div>
 
 
-      <form className="m-5" onSubmit={() => handleSubmit()}>
+      <form className="m-5" onSubmit={(e) => handleSubmit(e)}>
 
       <div className="row mt-5 mb-5 bold">
           <div className="col subtitle ">Patient Information</div>
@@ -113,7 +141,7 @@ function handleSubmit(){
           <label className="col-6 col-form-label">Date of Birth</label>
           <div className="col-6">
             <input
-              onChange={(e) =>  user.date = e.target.value }
+              onChange={(e) =>  user.dateOfBirth = e.target.value }
               type="date"
               className="form-control"
               required="required"
@@ -128,7 +156,6 @@ function handleSubmit(){
               onChange={(e) => (user.insuranceProvidor = e.target.value)}
               type="text"
               className="form-control"
-              required="required"
             />
           </div>
         </div>
