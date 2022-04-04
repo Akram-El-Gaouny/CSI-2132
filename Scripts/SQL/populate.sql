@@ -36,7 +36,7 @@ INSERT INTO Review (professionalism, cleanliness, value, communication, userID, 
     (4, 4, 4 ,4 ,7, 2, "2022-02-24"),
     (5, 5, 5 ,5 ,8, 2, "2022-02-24"),
     (5, 5, 5 ,5 ,7, 2, "2022-02-25"),
-    (5, 5, 5 ,5 ,9, 2, "2022-02-29");
+    (5, 5, 5 ,5 ,9, 2, "2022-02-28");
 
 -- insertions for Employee
 INSERT INTO Employee VALUES 
@@ -51,25 +51,25 @@ INSERT INTO ResponsibleFor VALUES
     (10, 2);
 
 -- insertions for PatientChart
-INSERT INTO PatientChart(recordID, patientID) VALUES
-	(111000, 10006),
-    (111001, 10007),
-    (111002, 10008),
-    (111003, 10009),
-    (111004, 10010);
+INSERT INTO PatientChart(patientID) VALUES
+	(6),
+    (7),
+    (8),
+    (9),
+    (10);
 
 -- insertions for Authored
 INSERT INTO Authored(employeeID, chartID) VALUES
-	(10001, 000100),
-    (10002, 000200),
-    (10003, 000300),
-    (10004, 000400),
-    (10005, 000500);
+	(1, 1),
+    (2, 2),
+    (3, 3),
+    (4, 4),
+    (5, 5);
 
 -- insertions for Invoice
 INSERT INTO Invoice (discount, patientCharge, totalFeeCharge, insuranceCharge, penalty, fulfillerID) VALUES
     (0.0, 20.00, 80.00, 60.00, 0.00, 6),
-    (0.0, 14.00, 14.00, 0.00, 14.00, 8,
+    (0.0, 14.00, 14.00, 0.00, 14.00, 8),
     (0.0, 0.00, 75.00, 75.00, 0.00, 9),
     (0.0, 100.00, 400.00, 300.00, 0.00, 2);
     
@@ -95,15 +95,16 @@ INSERT INTO FeeCharge (feeCode, charge, feeDesc) VALUES
     (94305, 80.00, "General Exam"),
     (94306, 300.00, "Tooth Removal"),
     (94307, 150.00, "Cleaning"),
-    (94308, 75.00, "Fluoride");
+    (94308, 75.00, "Fluoride"),
+    (94309, 75.00, "Scaling");
 
 -- insertions for AppointmentProcedure
-INSERT INTO AppointmentProcedure VALUES
-    (1, "Scaling", 1, 2, 00000001, 2),
-    (2, "Composite", 1, 2, 00000002, 1),
-    (1, null, 3, 2, 00000003, 0),
-    (1, "Fluoride", 2, 2, 00000004, 5),
-    (1, "Tooth Removal", 4, 2, 00000005, 4);
+INSERT INTO AppointmentProcedure(procedureType, amountOfProcedure, employeeID, appointmentID, feeCode) VALUES
+    ("Scaling", 1, 2, 1, 94309),
+    ("Composite", 1, 2, 2, 94304),
+    (null, 3, 2, 3, 94303),
+    ("Fluoride", 2, 2, 4, 94308),
+    ("Tooth Removal", 4, 2, 5, 94306);
 
 -- insertions for PatientPayment
 INSERT INTO PatientPayment(paymentDate, patientAmount, insuranceAmount, invoiceID, procedureID) VALUES
@@ -114,7 +115,7 @@ INSERT INTO PatientPayment(paymentDate, patientAmount, insuranceAmount, invoiceI
     ("2022-02-27", 240, 0, null, 5);
 
 -- insertions for InsuranceClaim
-INSERT INTO InsuranceClaim (claimAmount, paymentId) VALUES 
+INSERT INTO InsuranceClaim (claimAmount, patientPaymentID) VALUES 
     (150 , 1),
     (275 , 4);
 
@@ -127,12 +128,12 @@ INSERT INTO Treatment VALUES
      (5, 2, "Need direct supervision on the implant", 5);
      
 -- insertions for Symptom
-INSERT INTO Sympton (procedureID, symptomDescription) VALUES
-	(100001, "Dark spot on tooth 2"),
-    (100002, "Sore teeth, might need root canal."),
-    (100003, "Cavity in tooth 6."),
-    (100004, "Weak gums, bleeds when flossing."),
-    (100005, "Implant faulty, need supervision.");
+INSERT INTO Symptom (procedureID, symptomDescription) VALUES
+	(1, "Dark spot on tooth 2"),
+    (2, "Sore teeth, might need root canal."),
+    (3, "Cavity in tooth 6."),
+    (4, "Weak gums, bleeds when flossing."),
+    (5, "Implant faulty, need supervision.");
 
 -- insertions for Medication
 INSERT INTO Medication VALUES
