@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import { useState } from "react";
 import Receptionist from "./components/ReceptionistView/Receptionist.js";
+import Patient from "./components/PatientView/Patient.js";
 import { UserContext } from "./Contexts/UserContext";
 import SignIn from "./components/Authentication/signin";
 import HomePage from "./components/HomePage/homepage";
@@ -35,6 +36,7 @@ function App() {
                 { display: "Sign In", path: "/CSI-2132/signin" },
                 { display: "Branches", path: "/CSI-2132/branches" },
                 { display: "Receptionist", path: "/CSI-2132/receptionist" },
+                { display: "Patient", path: "/CSI-2132/patient" },
                 { display: "Dentist", path: "/CSI-2132/dentist" },
               ]}
             />
@@ -57,6 +59,18 @@ function App() {
             />
             <UserWelcome />
             <Receptionist />
+            <Footer />
+          </Route>
+
+          <Route exact path="/CSI-2132/patient">
+            <Navbar
+              List={[
+                { display: "Home Page", path: "/CSI-2132/" },
+                { display: "Branches", path: "/CSI-2132/branches" },
+              ]}
+            />
+            <UserWelcome />
+            <Patient />
             <Footer />
           </Route>
 
