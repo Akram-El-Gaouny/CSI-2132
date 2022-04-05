@@ -306,6 +306,8 @@ export function addUser(req, res) {
 		return;
 	}
 
+
+
 	console.log("A request has been made to the /addUser endpoint");
 
 	let query = `
@@ -314,6 +316,7 @@ export function addUser(req, res) {
       VALUES 
       ("${fname}", "${mname}", "${lname}", "${pemail}", "${pass}", ${hnum}, "${str}", "${cty}", "${prov}", "${role}", "${dob}", ${pssn});
   `;
+
 
 	SqlConnection.query(query, function (err, result, fields) {
 		if (err) {
@@ -327,6 +330,7 @@ export function addUser(req, res) {
 		} else {
 			console.log("A user has successfully been added to the DB");
 			res.json({ uid: result.insertId });
+
 		}
 	});
 }
@@ -355,7 +359,7 @@ export function addPhone(req, res) {
 			if (err) {
 				res.status(500).json(err);
 				console.error(
-					"An error occurred at the addPatient endpoint,",
+					"An error occurred at the addPhone endpoint,",
 					"Error Code: " + err.code + ",",
 					"Error Message: " + err.sqlMessage
 				);
@@ -368,6 +372,78 @@ export function addPhone(req, res) {
 
 	res.status(200);
 }
+
+export function addEmployeeInformation(req, res){
+
+  let uid, salary, position, branch = undefined;
+
+  uid = req.query.uid;
+  salary = req.query.salary;
+  position = req.query.position;
+  branch = req.query.branch;
+	
+  if (uid === undefined) {
+		res.status(400).json({ message: "Please provide a uid" });
+		return;
+	}
+
+	if (salary === undefined) {
+		res.status(400).json({ message: "Please provide a salary" });
+		return;
+	}
+
+  
+	if (position === undefined) {
+		res.status(400).json({ message: "Please provide a position" });
+		return;
+	}
+
+	if (branch === undefined) {
+		res.status(400).json({ message: "Please provide a branch" });
+		return;
+	}
+
+  let query = `INSERT into employee VALUES (${uid}, ${salary}, "${position}", ${branch})`;
+
+  SqlConnection.query(query, function (err, result, fields) {
+    if (err){
+      res.status(500).json(err);
+      console.error(
+        "An error occurred at the addE endpoint,",
+        "Error Code: " + err.code + ",",
+        "Error Message: " + err.sqlMessage
+      );
+      return;
+    }
+
+    res.status(200);
+
+  })
+
+}
+
+export function Branches(req, res){
+  
+  let query = "SELECT * FROM branch";
+
+  SqlConnection.query(query, function(err, result, fields)  {
+
+		if (err) {
+			res.status(500).json(err);
+			console.error(
+				"An error occurred at the branches endpoint,",
+				"Error Code: " + err.code + ",",
+				"Error Message: " + err.sqlMessage
+			)
+      return
+    }
+
+    res.status(200).json(result);
+
+  })
+
+}
+
 
 export function addPatientInsurance(req, res) {
 	let uid,
@@ -388,7 +464,7 @@ export function addPatientInsurance(req, res) {
     INSERT INTO Patient
     (patientId, insuranceProvider) 
     VALUES 
-    (${uid}, undefined);
+    (${uid}, null);
   `
 			: `
     INSERT INTO Patient
