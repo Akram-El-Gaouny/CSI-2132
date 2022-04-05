@@ -44,8 +44,7 @@ INSERT INTO Employee VALUES
     (2, 150000, "dentist", 2),
     (3, 80000, "receptionist", 2),
     (4, 95000, "hygienist", 2),
-    (5, 130000, "manager", 1),
-    (2, 130000, "dentist", 1);
+    (5, 130000, "manager", 1);
 
 -- insertions for ResponsibleFor
 INSERT INTO ResponsibleFor VALUES

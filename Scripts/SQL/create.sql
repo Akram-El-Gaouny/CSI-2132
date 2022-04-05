@@ -13,8 +13,8 @@ CREATE TABLE User (
     dateOfBirth DATE NOT NULL,
     age INTEGER NOT NULL,
     ssn INTEGER UNIQUE,
+    role VARCHAR(20),
     PRIMARY KEY (userID)
-    ON DELETE CASCADE
 );
 
 -- Calculate age
@@ -52,7 +52,7 @@ CREATE TABLE PhoneNumber (
     userID INTEGER NOT NULL,
     phoneNumber VARCHAR(10) NOT NULL,
     PRIMARY KEY (userID, phoneNumber),
-    FOREIGN KEY (userID) REFERENCES User(userID)
+    FOREIGN KEY (userID) REFERENCES User(userID) ON DELETE CASCADE
 );
 
 -- Checking for valid phoneNumber
@@ -97,9 +97,9 @@ CREATE TABLE Review (
     value INTEGER,
     communication INTEGER,
     userID INTEGER,
-    FOREIGN KEY (userID) REFERENCES User(userID),
+    FOREIGN KEY (userID) REFERENCES User(userID)  ON DELETE CASCADE,
     branchID INTEGER,
-    FOREIGN KEY (branchID) REFERENCES Branch(branchID),
+    FOREIGN KEY (branchID) REFERENCES Branch(branchID)  ON DELETE CASCADE,
     date DATE,
     PRIMARY KEY (reviewID)
 );
@@ -131,8 +131,8 @@ CREATE TABLE Employee (
     position VARCHAR(30) NOT NULL,
     branchID INTEGER NOT NULL,
     PRIMARY KEY (employeeID),
-    FOREIGN KEY (employeeID) REFERENCES User(userID),
-    FOREIGN KEY (branchID) REFERENCES Branch(branchID)
+    FOREIGN KEY (employeeID) REFERENCES User(userID)  ON DELETE CASCADE,
+    FOREIGN KEY (branchID) REFERENCES Branch(branchID)  ON DELETE CASCADE
 );
 
 -- Checking for valid position
@@ -177,8 +177,8 @@ CREATE TABLE ResponsibleFor (
     patientID INTEGER,
     responsiblePartyID INTEGER,
     PRIMARY KEY (patientID, responsiblePartyID),
-    FOREIGN KEY (patientID) REFERENCES Patient(patientID),
-    FOREIGN KEY (responsiblePartyID) REFERENCES User(userID)
+    FOREIGN KEY (patientID) REFERENCES Patient(patientID)  ON DELETE CASCADE,
+    FOREIGN KEY (responsiblePartyID) REFERENCES User(userID)  ON DELETE CASCADE
 );
 
 -- PatientChart
@@ -186,15 +186,15 @@ CREATE TABLE PatientChart (
 	recordID INTEGER NOT NULL AUTO_INCREMENT,
 	PRIMARY KEY (recordID),
     patientID INTEGER,
-    FOREIGN KEY (patientID) REFERENCES Patient(patientID)
+    FOREIGN KEY (patientID) REFERENCES Patient(patientID)  ON DELETE CASCADE
 );
 
 -- Authored
 CREATE TABLE Authored (
 	employeeID INTEGER NOT NULL,
-    FOREIGN KEY (employeeID) REFERENCES Employee(employeeID),
+    FOREIGN KEY (employeeID) REFERENCES Employee(employeeID)  ON DELETE CASCADE,
 	chartID INTEGER NOT NULL,
-    FOREIGN KEY (chartID) REFERENCES PatientChart(recordID)
+    FOREIGN KEY (chartID) REFERENCES PatientChart(recordID)  ON DELETE CASCADE
 );
 
 -- Invoice
@@ -207,7 +207,7 @@ CREATE TABLE Invoice (
     penalty DECIMAL(10,2),
     PRIMARY KEY  (invoiceID),
     fulfillerID INTEGER,
-    FOREIGN KEY (fulfillerID) REFERENCES User(userID)
+    FOREIGN KEY (fulfillerID) REFERENCES User(userID) ON DELETE CASCADE
 );
 
 -- Checking for valid discount
@@ -238,7 +238,7 @@ CHECK (penalty >= 0.0);
 -- PaymentType
 CREATE TABLE PaymentType (
 	invoiceID INTEGER NOT NULL,
-    FOREIGN KEY (invoiceID) REFERENCES Invoice(invoiceID),
+    FOREIGN KEY (invoiceID) REFERENCES Invoice(invoiceID)  ON DELETE CASCADE,
     paymentType VARCHAR(30)
 );
 
@@ -259,9 +259,9 @@ CREATE TABLE Appointment (
     appointmentType VARCHAR(30) NOT NULL,
     status VARCHAR(30),
     PRIMARY KEY (appointmentID),
-    FOREIGN KEY (patientID) REFERENCES Patient(patientID),
-    FOREIGN KEY (employeeID) REFERENCES Employee(employeeID),
-    FOREIGN KEY (invoiceID) REFERENCES Invoice(InvoiceID)
+    FOREIGN KEY (patientID) REFERENCES Patient(patientID)  ON DELETE CASCADE,
+    FOREIGN KEY (employeeID) REFERENCES Employee(employeeID)  ON DELETE CASCADE,
+    FOREIGN KEY (invoiceID) REFERENCES Invoice(InvoiceID)  ON DELETE CASCADE
 );
 
 -- Checking for valid status
@@ -296,9 +296,9 @@ CREATE TABLE AppointmentProcedure (
     appointmentID INTEGER NOT NULL,
     feeCode INTEGER NOT NULL,
     PRIMARY KEY (procedureID),
-    FOREIGN KEY (employeeID) REFERENCES Employee(employeeID),
-    FOREIGN KEY (appointmentID) REFERENCES Appointment(appointmentID),
-    FOREIGN KEY (feeCode) REFERENCES FeeCharge(feeCode)
+    FOREIGN KEY (employeeID) REFERENCES Employee(employeeID) ON DELETE CASCADE,
+    FOREIGN KEY (appointmentID) REFERENCES Appointment(appointmentID) ON DELETE CASCADE,
+    FOREIGN KEY (feeCode) REFERENCES FeeCharge(feeCode) ON DELETE CASCADE
 );
 
 -- Checking that AppointmentProcedure is positive and not 0
@@ -315,8 +315,8 @@ CREATE TABLE PatientPayment (
     invoiceID INTEGER,
     procedureID INTEGER NOT NULL,
     PRIMARY KEY (patientPaymentID),
-    FOREIGN KEY (invoiceID) REFERENCES Invoice(InvoiceID),
-    FOREIGN KEY (procedureID) REFERENCES AppointmentProcedure(procedureID)
+    FOREIGN KEY (invoiceID) REFERENCES Invoice(InvoiceID) ON DELETE CASCADE,
+    FOREIGN KEY (procedureID) REFERENCES AppointmentProcedure(procedureID) ON DELETE CASCADE
 );
 
 -- Checking that patientAmount is positive or 0
@@ -335,7 +335,7 @@ CREATE TABLE InsuranceClaim (
     claimAmount NUMERIC(8,2) NOT NULL,
     patientPaymentID INTEGER NOT NULL,
     PRIMARY KEY (claimID),
-    FOREIGN KEY (patientPaymentID) REFERENCES PatientPayment(patientPaymentID)
+    FOREIGN KEY (patientPaymentID) REFERENCES PatientPayment(patientPaymentID) ON DELETE CASCADE
 );
 
 -- Checking that claim amount is valid
@@ -349,8 +349,8 @@ CREATE TABLE Treatment (
     tooth INTEGER NOT NULL,
     comment VARCHAR(90),
     recordID INTEGER NOT NULL,
-    FOREIGN KEY (recordID) REFERENCES PatientChart(recordID),
-    FOREIGN KEY (procedureID) REFERENCES AppointmentProcedure(procedureID)
+    FOREIGN KEY (recordID) REFERENCES PatientChart(recordID) ON DELETE CASCADE,
+    FOREIGN KEY (procedureID) REFERENCES AppointmentProcedure(procedureID) ON DELETE CASCADE
 );
 
 -- Checking that tooth number is valid
@@ -363,7 +363,7 @@ CREATE TABLE Symptom (
     procedureID INTEGER NOT NULL,
     symptomDescription VARCHAR(90) NOT NULL,
     PRIMARY KEY (procedureID, symptomDescription),
-    FOREIGN KEY (procedureID) REFERENCES AppointmentProcedure(procedureID)
+    FOREIGN KEY (procedureID) REFERENCES AppointmentProcedure(procedureID) ON DELETE CASCADE
 );
 
 -- Medication
@@ -371,5 +371,5 @@ CREATE TABLE Medication (
     procedureID INTEGER NOT NULL,
     medicationName VARCHAR(40) NOT NULL,
     PRIMARY KEY (procedureID, medicationName),
-    FOREIGN KEY (procedureID) REFERENCES AppointmentProcedure(procedureID)
+    FOREIGN KEY (procedureID) REFERENCES AppointmentProcedure(procedureID) ON DELETE CASCADE
 );

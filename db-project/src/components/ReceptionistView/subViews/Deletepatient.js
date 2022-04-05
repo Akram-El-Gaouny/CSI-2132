@@ -47,9 +47,9 @@ const Deletepatient = () => {
   function handleSubmit() {
       
       axios.delete(`http://localhost:8000/deletePatient?SSN=${searchSSN}`).then((response) => {
-        if (response.status === 200) {
+ 
           alert("Successfully deleted")
-        }
+    
       }).catch((error) => alert(error.message))
   }
 
