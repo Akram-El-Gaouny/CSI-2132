@@ -80,7 +80,7 @@ const Deletepatient = () => {
         </button>
       </div>
 
-      <form className="m-5" onSubmit={() => handleSubmit()}>
+      {	searchData !== undefined ? <form className="m-5" onSubmit={() => handleSubmit()}>
         <div className="row mt-5 mb-5 bold">
           <div className="col subtitle ">Patient Information</div>
         </div>
@@ -143,7 +143,7 @@ const Deletepatient = () => {
             </button>
           </div>
         </div>
-      </form>
+      </form> : ""}
     </div>
   );
 };

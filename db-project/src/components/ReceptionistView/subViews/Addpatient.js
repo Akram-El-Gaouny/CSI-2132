@@ -1,24 +1,25 @@
 import "./subViews.css";
 import axios from "axios";
 
+let user = {
+  first: null,
+  middle: null,
+  last: null,
+  email: null,
+  password: "dcms123",
+  housenumber: null,
+  street: null,
+  city: null,
+  province: null,
+  role: "patient",
+  dateOfBirth: null,
+  SSN: null,
+  phonenumbers: [],
+  insuranceProvidor: null
+};
 
 const Addpatient = () => {
-  let user = {
-    first: null,
-    middle: null,
-    last: null,
-    email: null,
-    password: "dcms123",
-    housenumber: null,
-    street: null,
-    city: null,
-    province: null,
-    role: "patient",
-    dateOfBirth: null,
-    SSN: null,
-    phonenumbers: [],
-    insuranceProvidor: null
-  };
+
 
   
 function handleSubmit(e){
