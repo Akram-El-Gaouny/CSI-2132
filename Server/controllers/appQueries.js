@@ -689,3 +689,33 @@ export function phoneNumbersByUID(req, res){
     res.status(200).json(result);
   });
 }
+
+export function bookApt(req, res){
+	let pid = req.query.pid 
+	let eid = req.query.eid
+	let date = req.query.date
+	let startTime = req.query.startTime
+	let endTime	= req.query.endTime
+	let aptType = req.query.aptType
+	
+
+	let query = `
+	INSERT INTO Appointment (patientID, employeeID, date, startTime, endTime, appointmentType)
+	VALUES (${pid}, ${eid}, "${date}", "${startTime}", "${endTime}", "${aptType}");
+	`
+	SqlConnection.query(query, function (err, result, fields){
+		if (err) {
+			res.status(500).json(err);
+			console.error(
+			  "An error occurred at the bookApt. endpoint,",
+			  "Error Code: " + err.code + ",",
+			  "Error Message: " + err.sqlMessage
+			);
+			return;
+		  }
+		  
+		  res.status(200).json({"aptid": result.insertId});
+	})
+
+
+}
