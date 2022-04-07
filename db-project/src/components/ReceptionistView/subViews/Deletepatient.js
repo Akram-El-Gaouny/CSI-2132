@@ -44,8 +44,9 @@ const Deletepatient = () => {
 
   }
 
-  function handleSubmit() {
-      
+  function handleSubmit(e) {
+    e.preventDefault();
+    
       axios.delete(`http://localhost:8000/deletePatient?SSN=${searchSSN}`).then((response) => {
  
           alert("Successfully deleted")
@@ -80,7 +81,7 @@ const Deletepatient = () => {
         </button>
       </div>
 
-      {	searchData !== undefined ? <form className="m-5" onSubmit={() => handleSubmit()}>
+      {	searchData !== undefined ? <form className="m-5" onSubmit={(e) => handleSubmit(e)}>
         <div className="row mt-5 mb-5 bold">
           <div className="col subtitle ">Patient Information</div>
         </div>

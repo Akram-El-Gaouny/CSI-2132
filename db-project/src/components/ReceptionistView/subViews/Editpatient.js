@@ -45,7 +45,10 @@ const Editpatient = () => {
 
 	}
 
-	function handleSubmit() {
+	function handleSubmit(e) {
+		e.preventDefault();
+		document.getElementById("myform").reset();
+		
 		let updateUserInfo = `http://localhost:8000/updatePatient?fname=${first}&mname=${middle}&lname=${last}&email=${email}&hnum=${houseNumber}&str=${street}&cty=${city}&prov=${province}&SSN=${searchSSN}`;
 		axios
 			.put(updateUserInfo)
@@ -98,7 +101,7 @@ const Editpatient = () => {
 				</button>
 			</div>
 
-		  {	searchData !== undefined ? <form className='m-5' onSubmit={() => handleSubmit()}>
+		  {	searchData !== undefined ? <form id = "myform" className='m-5' onSubmit={(e) => handleSubmit(e)}>
 				<div className='row mt-5 mb-5 bold'>
 					<div className='col subtitle '>Patient Information</div>
 				</div>

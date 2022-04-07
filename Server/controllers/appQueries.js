@@ -86,7 +86,7 @@ export function dentistsInBranch(req, res) {
 	}
 
 	let query = `
-        SELECT first, last FROM User
+        SELECT * FROM User
         WHERE User.userID IN (
           SELECT employee.employeeID FROM Employee
           WHERE employee.position = "dentist" and branchID = "${branchid}"
@@ -112,7 +112,7 @@ export function dentistsInBranch(req, res) {
 			return;
 		}
 
-		res.json({ queryResults: result[0] });
+		res.json({ queryResults: result });
 	});
 }
 

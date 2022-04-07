@@ -23,7 +23,7 @@ const Addpatient = () => {
 
   
 function handleSubmit(e){
-
+	e.preventDefault();
   let AddPatientInfo = `http://localhost:8000/addUser?fname=${user.first}&mname=${user.middle}&lname=${user.last}&pemail=${user.email}&pass=${user.password}&hnum=${user.housenumber}&str=${user.street}&cty=${user.city}&prov=${user.province}&role=${user.role}&dob=${user.dateOfBirth}&pssn=${user.SSN}`
 
   axios.post(AddPatientInfo).then((response) => {
