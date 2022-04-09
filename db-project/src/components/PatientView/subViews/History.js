@@ -3,31 +3,23 @@ import "./subViews.css";
 const History = (procedures) => {
 
     procedures = [
-        {date: "Date1",
-        type: "type1",
-        dentist: "name1",
-        symptoms: "symptoms",
+        {procedureID: "procedureID1",
+        date: "date1",
         medication: "medication",
         comment: "comment"
         },
-        {date: "Date2",
-        type: "type2",
-        dentist: "name2",
-        symptoms: "symptoms",
+        {procedureID: "procedureID2",
+        date: "date2",
         medication: "medication",
         comment: "comment"
         },
-        {date: "Date3",
-        type: "type3",
-        dentist: "name3",
-        symptoms: "symptoms",
+        {procedureID: "procedureID3",
+        date: "date3",
         medication: "medication",
         comment: "comment"
         },
-        {date: "Date4",
-        type: "type4",
-        dentist: "name4",
-        symptoms: "symptoms",
+        {procedureID: "procedureID4",
+        date: "date4",
         medication: "medication",
         comment: "comment"
         }
@@ -46,16 +38,10 @@ const History = (procedures) => {
         return (
             <div className="row">
                 <div className="col">
+                    {procedure.procedureID}
+                </div>
+                <div className="col">
                     {procedure.date}
-                </div>
-                <div className="col">
-                    {procedure.type}
-                </div>
-                <div className="col">
-                    {procedure.dentist}
-                </div>
-                <div className="col">
-                    {procedure.symptoms}
                 </div>
                 <div className="col">
                     {procedure.medication}
@@ -76,16 +62,10 @@ const History = (procedures) => {
       <div className="container">
         <div className="row">
             <div className="col">
-                Date:
+                procedureID:
             </div>
             <div className="col">
-                Type:
-            </div>
-            <div className="col">
-                Dentist:
-            </div>
-            <div className="col">
-                Symptoms:
+                date:
             </div>
             <div className="col">
                 Medication:
