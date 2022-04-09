@@ -1,6 +1,6 @@
 import express from 'express';
 import {health} from "../controllers/healthController.js";
-import {bookApt, addEmployeeInformation, Branches,updatePatientInsurance,updatePatient,deletePatient,patientBySSN ,authenticatePatient,authenticateEmployee, dentistsInBranch, appointmentsByDentist, appointmentsByPatient, feesDescriptions, addUser, addPhone, addPatientInsurance} from "../controllers/appQueries.js";
+import {bookApt, addEmployeeInformation, Branches,updatePatientInsurance,updatePatient,deletePatient,patientBySSN ,authenticatePatient,authenticateEmployee, dentistsInBranch, appointmentsByDentist, appointmentsByPatient, feesDescriptions, addUser, addPhone, addPatientInsurance, appointmentProceduresByPatient} from "../controllers/appQueries.js";
 const Router = express.Router();
 
 // get requests
@@ -13,6 +13,7 @@ Router.get("/appointmentsByPatient", appointmentsByPatient)
 Router.get("/feeDescriptions", feesDescriptions)
 Router.get("/patientBySSN",patientBySSN)
 Router.get("/branches",Branches)
+Router.get("/appointmentProceduresByPatient", appointmentProceduresByPatient)
 
 Router.post("/addUser", addUser)
 Router.post("/addPhone", addPhone)

@@ -719,3 +719,30 @@ export function bookApt(req, res){
 
 
 }
+
+export function appointmentProceduresByPatient(req, res) {
+	let pid = req.query.pid;
+
+	let query = `
+	SELECT x.procedureID, x.date, t.comment, m.medicationName FROM 
+	(SELECT procedureID, a.date FROM
+	(SELECT appointmentID, date FROM Appointment
+	WHERE patientID = ${pid}) a
+	JOIN AppointmentProcedure AS p ON a.appointmentID = p.appointmentID) x
+	JOIN Treatment AS t ON x.procedureID=t.procedureID
+	JOIN Medication AS m ON m.procedureID=t.procedureID 
+	`
+	 SqlConnection.query(query, function (err, result, fields) {
+		 if (err) {
+			 res.status(500).json(err);
+			 console.error(
+				"An error occurred at the appointmentProceduresByPatient endpoint,",
+				"Error Code: " + err.code + ",",
+				"Error Message: " + err.sqlMessage
+			 );
+			 return;
+		 }
+
+		 res.status(200).json(result)
+	 })
+}

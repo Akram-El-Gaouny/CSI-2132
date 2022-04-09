@@ -49,7 +49,7 @@ CHECK (province in ("Alberta", "British Columbia", "Manitoba", "New Brunswick", 
 
 -- PhoneNumber
 CREATE TABLE PhoneNumber (
-    userID INTEGER NOT NULL,
+    userID BIGINT NOT NULL,
     phoneNumber VARCHAR(10) NOT NULL,
     PRIMARY KEY (userID, phoneNumber),
     FOREIGN KEY (userID) REFERENCES User(userID) ON DELETE CASCADE
