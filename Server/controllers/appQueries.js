@@ -724,9 +724,9 @@ export function appointmentProceduresByPatient(req, res) {
 	let pid = req.query.pid;
 
 	let query = `
-	SELECT x.procedureID, x.date, t.comment, m.medicationName FROM 
-	(SELECT procedureID, a.date FROM
-	(SELECT appointmentID, date FROM Appointment
+	SELECT x.procedureID, x.date, t.comment, m.medicationName, x.appointmentType FROM 
+	(SELECT procedureID, a.date, a.appointmentType FROM
+	(SELECT appointmentID, date, appointmentType FROM Appointment
 	WHERE patientID = ${pid}) a
 	JOIN AppointmentProcedure AS p ON a.appointmentID = p.appointmentID) x
 	JOIN Treatment AS t ON x.procedureID=t.procedureID

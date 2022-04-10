@@ -2,76 +2,56 @@ import "./subTabs.css";
 import { useState } from "react";
 import axios from "axios";
 
-const MedicalHistory = (procedures) => {
-    procedures = [
-        {procedureID: "procedureID1",
-        date: "date1",
-        medication: "medication",
-        comment: "comment"
-        },
-        {procedureID: "procedureID2",
-        date: "date2",
-        medication: "medication",
-        comment: "comment"
-        },
-        {procedureID: "procedureID3",
-        date: "date3",
-        medication: "medication",
-        comment: "comment"
-        },
-        {procedureID: "procedureID4",
-        date: "date4",
-        medication: "medication",
-        comment: "comment"
-        }
-    ]
+const MedicalHistory = () => {
 
     const [searchSSN, setSearchSSN] = useState();
-	const [searchData, setSearchData] = useState();
 
-	const [first, setFirst] = useState("");
-	const [last, setLast] = useState("");
-	const [middle, setMiddle] = useState("");
-	const [email, setEmail] = useState("");
-	const [houseNumber, setHouseNumber] = useState("");
-	const [street, setStreet] = useState("");
-	const [city, setCity] = useState("");
-	const [province, setProvince] = useState("Alberta");
-	const [insurance, setInsurance] = useState("");
+    const [procedures, setProcedures] = useState([]);
  
 	function handleSearch() {
 		axios
 			.get(`http://localhost:8000/patientbySSN?SSN=${searchSSN}`)
 			.then((response) => {
-				return response.data.user;
-			})
-			.then((data) => {
-        setSearchData(data);
-				setFirst(data.first);
-				setLast(data.last);
-				setMiddle(data.middle);
-				setEmail(data.email);
-				setHouseNumber(data.houseNumber);
-				setStreet(data.street);
-				setCity(data.city);
-				setProvince(data.province);
-        setInsurance(data.insuranceProvider);
+                let uid = response.data.user.userID;
+                if(uid !== undefined){
+                    axios
+                        .get(`http://localhost:8000/appointmentProceduresByPatient?pid=${uid}`)
+                        .then((response) => {
+                  
+                            return response.data;
+                        })
+                        .then((data) => {
+                          
+                            setProcedures(data);
+                        })
+                        .catch((error) => {
+                            if (error.message === "Request failed with status code 400") {
+                                alert("Invalid Uid");
+
+                            } else {
+                                
+                                alert(error.message);
+                            }
+                        });
+                }
 			})
 			.catch((error) => {
 				if (error.message === "Request failed with status code 400") {
 					alert("Enter a valid Patient SSN");
-          setSearchData();
+
+                setProcedures([]);
 				} else {
+                   
 					alert(error.message);
 				}
 			});
-
+        
 	}
 
     const noProcedures = () => {
         return (
             <div className="text-center">
-                You have no past proceduress...
+                Search for a patient to see their history
             </div>
         );
     }
@@ -84,10 +64,13 @@ const MedicalHistory = (procedures) => {
                     {procedure.procedureID}
                 </div>
                 <div className="col">
-                    {procedure.date}
+                    {procedure.appointmentType}
                 </div>
                 <div className="col">
-                    {procedure.medication}
+                    {procedure.date.substring(0,10)}
+                </div>
+                <div className="col">
+                    {procedure.medicationName}
                 </div>
                 <div className="col">
                     {procedure.comment}
@@ -126,10 +109,13 @@ const MedicalHistory = (procedures) => {
       <div className="container">
         <div className="row">
             <div className="col">
-                procedureID:
+                ProcedureID:
             </div>
             <div className="col">
-                date:
+                Appointment Type:
+            </div>
+            <div className="col">
+                Date:
             </div>
             <div className="col">
                 Medication:
@@ -138,7 +124,7 @@ const MedicalHistory = (procedures) => {
                 Comment:
             </div>
         </div>
-        {procedures.length === 0 ? noProcedures() : procedures.map(renderHistory)}
+        {procedures === undefined || procedures.length === 0 ? noProcedures() : procedures.map(renderHistory)}
       </div>
       
     </div>

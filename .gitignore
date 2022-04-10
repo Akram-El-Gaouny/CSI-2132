@@ -1,3 +1,4 @@
 Server/node_modules/
 Server/config.json
 db-project/package-lock.json
+Server/package-lock.json

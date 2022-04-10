@@ -1,32 +1,33 @@
 import "./subTabs.css";
+import { useState, useContext, useEffect } from "react";
+import { UserContext } from "../../Contexts/UserContext";
+import axios from "axios";
 
-const Appointments = (appointments) => {
-    appointments = [
-        {date: "Date1",
-        type: "type1",
-        patient: "name1",
-        startTime: "start1",
-        endTime: "end1"
-        },
-        {date: "Date2",
-        type: "type2",
-        patient: "name2",
-        startTime: "start2",
-        endTime: "end2"
-        },
-        {date: "Date3",
-        type: "type3",
-        patient: "name3",
-        startTime: "start3",
-        endTime: "end3"
-        },
-        {date: "Date4",
-        type: "type4",
-        patient: "name4",
-        startTime: "start4",
-        endTime: "end4"
-        }
-    ]
+const Appointments = () => {
+    const user = useContext(UserContext);
+    const [appointments, setAppointments] = useState([]);
+
+    let uid = user.user.id;
+    useEffect(() => {
+        axios.get(`http://localhost:8000/appointmentsByDentist?employeeID=${uid}`)
+        .then((response) => {
+
+            return response.data.queryResults;
+        })
+        .then((data) => {
+        
+            setAppointments(data);
+        })
+        .catch((error) => {
+            if (error.message === "Request failed with status code 400") {
+                alert("Invalid Uid");
+
+            } else {
+                
+                alert(error.message);
+            }
+        });
+    }, [""]);
 
     const noAppointments = () => {
         return (
@@ -41,13 +42,13 @@ const Appointments = (appointments) => {
     return (
         <div className="row">
             <div className="col">
-                {appointment.date}
+                {appointment.date.substring(0,10)}
             </div>
             <div className="col">
-                {appointment.type}
+                {appointment.appointmentType}
             </div>
             <div className="col">
-                {appointment.patient}
+                {appointment.patientID}
             </div>
             <div className="col">
                 {appointment.startTime}
@@ -74,7 +75,7 @@ const Appointments = (appointments) => {
                 Type:
             </div>
             <div className="col">
-                Patient:
+                Patient ID:
             </div>
             <div className="col">
                 Start Time:
@@ -83,7 +84,7 @@ const Appointments = (appointments) => {
                 End Time:
             </div>
         </div>
-        {appointments.length === 0 ? noAppointments() : appointments.map(renderAppointment)}
+        {appointments === undefined || appointments.length === 0 ? noAppointments() : appointments.map(renderAppointment)}
       </div>
       
     </div>

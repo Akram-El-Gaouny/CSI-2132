@@ -1,29 +1,34 @@
 import "./subViews.css";
+import { useState, useContext, useEffect } from "react";
+import { UserContext } from "../../../Contexts/UserContext";
+import axios from "axios";
 
-const History = (procedures) => {
+const History = () => {
 
-    procedures = [
-        {procedureID: "procedureID1",
-        date: "date1",
-        medication: "medication",
-        comment: "comment"
-        },
-        {procedureID: "procedureID2",
-        date: "date2",
-        medication: "medication",
-        comment: "comment"
-        },
-        {procedureID: "procedureID3",
-        date: "date3",
-        medication: "medication",
-        comment: "comment"
-        },
-        {procedureID: "procedureID4",
-        date: "date4",
-        medication: "medication",
-        comment: "comment"
-        }
-    ]
+    const user = useContext(UserContext);
+    const [procedures, setProcedures] = useState([]);
+
+    let uid = user.user.id;
+    useEffect(() => {
+        axios.get(`http://localhost:8000/appointmentProceduresByPatient?pid=${uid}`)
+        .then((response) => {
+
+            return response.data;
+        })
+        .then((data) => {
+        
+            setProcedures(data);
+        })
+        .catch((error) => {
+            if (error.message === "Request failed with status code 400") {
+                alert("Invalid Uid");
+
+            } else {
+                
+                alert(error.message);
+            }
+        });
+    }, [""]);
 
     const noProcedures = () => {
         return (
@@ -34,6 +39,7 @@ const History = (procedures) => {
     }
 
     
+    
     const renderHistory = (procedure) => {
         return (
             <div className="row">
@@ -41,10 +47,13 @@ const History = (procedures) => {
                     {procedure.procedureID}
                 </div>
                 <div className="col">
-                    {procedure.date}
+                    {procedure.appointmentType}
                 </div>
                 <div className="col">
-                    {procedure.medication}
+                    {procedure.date.substring(0,10)}
+                </div>
+                <div className="col">
+                    {procedure.medicationName}
                 </div>
                 <div className="col">
                     {procedure.comment}
@@ -53,7 +62,7 @@ const History = (procedures) => {
         );
       }
 
-  return (
+  return ( 
     <div className="History subViewOutline m-5 ">
       <div className="row m-5 ">
         <div className="col subViewTitle text-center">History</div>
@@ -62,10 +71,13 @@ const History = (procedures) => {
       <div className="container">
         <div className="row">
             <div className="col">
-                procedureID:
+                ProcedureID:
             </div>
             <div className="col">
-                date:
+                Appointment Type:
+            </div>
+            <div className="col">
+                Date:
             </div>
             <div className="col">
                 Medication:
@@ -74,7 +86,7 @@ const History = (procedures) => {
                 Comment:
             </div>
         </div>
-        {procedures.length === 0 ? noProcedures() : procedures.map(renderHistory)}
+        {procedures === undefined || procedures.length === 0 ? noProcedures() : procedures.map(renderHistory)}
       </div>
       
     </div>
