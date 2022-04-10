@@ -13,9 +13,9 @@ INSERT INTO User (first, middle, last, email, password, housenumber, street, cit
 
 -- insertions for PhoneNumber
 INSERT INTO PhoneNumber(userID, phoneNumber) VALUES 
-    (1, 6138556588),
-    (2, 7745665654),
-    (4, 4224256884);
+    (1, "6138556588"),
+    (2,"7745665654"),
+    (4, "4224256884");
 
 -- insertions for Patient
 INSERT INTO Patient VALUES
@@ -99,12 +99,12 @@ INSERT INTO FeeCharge (feeCode, charge, feeDesc) VALUES
     (94309, 75.00, "Scaling");
 
 -- insertions for AppointmentProcedure
-INSERT INTO AppointmentProcedure(procedureType, amountOfProcedure, employeeID, appointmentID, feeID) VALUES
-    ("Scaling", 1, 2, 1, 7),
-    ("Composite", 1, 2, 2, 2),
-    (null, 3, 2, 3, 1),
-    ("Fluoride", 2, 2, 4, 6),
-    ("Tooth Removal", 4, 2, 5, 4);
+INSERT INTO AppointmentProcedure(procedureType, amountOfProcedure, employeeID, appointmentID, feeCode) VALUES
+    ("Scaling", 1, 2, 1, 94309),
+    ("Composite", 1, 2, 2, 94304),
+    (null, 3, 2, 3, 94303),
+    ("Fluoride", 2, 2, 4, 94308),
+    ("Tooth Removal", 4, 2, 5, 94306);
 
 -- insertions for PatientPayment
 INSERT INTO PatientPayment(paymentDate, patientAmount, insuranceAmount, invoiceID, procedureID) VALUES
