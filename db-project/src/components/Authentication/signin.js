@@ -77,11 +77,11 @@ const SignIn = () => {
         <div className="row justify-content-center mt-5">
           <div id="signInBorder" className="col-lg-4 pt-5">
             <div className="justify-item-center text-center formTitle">
-              Sign In From
+              Sign In Form
             </div>
             <form>
               <div className="form-group mt-3 ">
-                <label></label>
+                <label>Email:</label>
                 <input
                   type="email"
                   className="form-control"
@@ -91,7 +91,7 @@ const SignIn = () => {
                 />
               </div>
               <div className="form-group">
-                <label>Password</label>
+                <label>Password:</label>
                 <input
                   type="password"
                   className="form-control"
@@ -113,8 +113,8 @@ const SignIn = () => {
               </select>
 
               <div className=" text=-center error">{message}</div>
-              <div className="text-center" onClick={authenticate}>
-                <div className="btn btn-dark mb-5">Submit</div>
+              <div className="text-center" >
+                <div className="btn btn-dark mb-5" onClick={authenticate}>Submit</div>
               </div>
             </form>
           </div>
