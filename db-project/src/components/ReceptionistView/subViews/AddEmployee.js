@@ -1,6 +1,7 @@
 import "./subViews.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import dayjs from "dayjs"
 
 let user = {
 	first: null,
@@ -11,7 +12,7 @@ let user = {
 	housenumber: null,
 	street: null,
 	city: null,
-	province: null,
+	province: "Alberta",
 	role: "employee",
 	dateOfBirth: null,
     position: "dentist",
@@ -20,6 +21,8 @@ let user = {
 	salary: null,
     branch: 1,
 };
+
+
 
 const AddEmployee = () => {
 	const [branchSelect, setBranchSelect] = useState([]);
@@ -41,11 +44,26 @@ const AddEmployee = () => {
 			});
 	}, []);
 
+
+	function validatePhs(){
+		let x = true;
+		user.phonenumbers.forEach((ph) => {
+			if (ph.length != 10 || isNaN(ph)) {
+				if (x) {
+					x = false;
+				}
+			}
+		});
+	}
+
 	function handleSubmit(e) {
-		e.preventDefault();
+
+		if (!validatePhs()){alert("Please ensure that each phone number is 10 digits only and it's all numbers"); return;}
+
+		
 		let AddPatientInfo = `http://localhost:8000/addUser?fname=${user.first}&mname=${user.middle}&lname=${user.last}&pemail=${user.email}&pass=${user.password}&hnum=${user.housenumber}&str=${user.street}&cty=${user.city}&prov=${user.province}&role=${user.role}&dob=${user.dateOfBirth}&pssn=${user.SSN}`;
 
-       alert(AddPatientInfo);
+     
 
 		axios
 			.post(AddPatientInfo)
@@ -170,6 +188,7 @@ if (branchSelect !== "Loading..."){
 								type='date'
 								className='form-control'
 								required='required'
+								max = {dayjs().format("YYYY-MM-DD")}
 							/>
 						</div>
 					</div>
@@ -210,7 +229,7 @@ if (branchSelect !== "Loading..."){
 						<div className='col-6'>
 							<input
 								onChange={(e) => (user.salary = e.target.value)}
-								type='text'
+								type='number'
 								className='form-control'
 							/>
 						</div>

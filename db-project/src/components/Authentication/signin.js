@@ -13,7 +13,7 @@ const SignIn = () => {
   const h = useHistory();
   const authenticate = (e) => {
 
-    e.preventDefault();
+
 
     let endpoint = `http://localhost:8000/authenticatePatient?email=${email}&password=${password}`
 
@@ -64,9 +64,6 @@ const SignIn = () => {
           return;
         }
       });
-
-    
-
 
 
   };
