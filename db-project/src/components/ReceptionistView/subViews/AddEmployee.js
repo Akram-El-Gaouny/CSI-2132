@@ -45,7 +45,7 @@ const AddEmployee = () => {
 	}, []);
 
 
-	function validatePhs(){
+	function validatePhs() {
 		let x = true;
 		user.phonenumbers.forEach((ph) => {
 			if (ph.length != 10 || isNaN(ph)) {
@@ -54,10 +54,12 @@ const AddEmployee = () => {
 				}
 			}
 		});
+
+		return x;
 	}
 
 	function handleSubmit(e) {
-
+		e.preventDefault();
 		if (!validatePhs()){alert("Please ensure that each phone number is 10 digits only and it's all numbers"); return;}
 
 		
