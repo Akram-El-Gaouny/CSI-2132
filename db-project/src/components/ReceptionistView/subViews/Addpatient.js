@@ -1,5 +1,6 @@
 import "./subViews.css";
 import axios from "axios";
+import dayjs from "dayjs"
 
 let user = {
 	first: null,
@@ -160,6 +161,7 @@ const Addpatient = () => {
 							type='date'
 							className='form-control'
 							required='required'
+              max = {dayjs().format("YYYY-MM-DD")}
 						/>
 					</div>
 				</div>
