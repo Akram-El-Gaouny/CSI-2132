@@ -34,7 +34,7 @@ const Addpatient = () => {
 	}
 
 	function handleSubmit(e) {
-
+		e.preventDefault();
 		if (!validatePhs()) {
 			alert(
 				"Please ensure that each phone number is 10 digits only and has no alphabet in it"

@@ -17,6 +17,7 @@ const Editpatient = () => {
 	const [insurance, setInsurance] = useState("");
  
 	function handleSearch() {
+	
 		axios
 			.get(`http://localhost:8000/patientbySSN?SSN=${searchSSN}`)
 			.then((response) => {
@@ -46,7 +47,7 @@ const Editpatient = () => {
 	}
 
 	function handleSubmit(e) {
-
+		e.preventDefault();
 		document.getElementById("myform").reset();
 		
 		let updateUserInfo = `http://localhost:8000/updatePatient?fname=${first}&mname=${middle}&lname=${last}&email=${email}&hnum=${houseNumber}&str=${street}&cty=${city}&prov=${province}&SSN=${searchSSN}`;

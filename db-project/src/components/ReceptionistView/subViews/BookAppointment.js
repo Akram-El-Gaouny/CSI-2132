@@ -69,7 +69,8 @@ const BookAppointment = () => {
 					return res.data.queryResults;
 				})
 				.then((data) => {
-                   
+					
+                   if (data !== undefined)  {
 					setDentists(
 						data.map((doctor) => (
                             
@@ -79,6 +80,8 @@ const BookAppointment = () => {
 						))
 					);
 					setSelectedDentist(data[0].userID);
+				   }
+
 				})
 				.catch((err) => {
 					alert(err);
@@ -95,6 +98,7 @@ const BookAppointment = () => {
 	const [endTime, setEnd] = useState();
 
 	function handleSearch() {
+		
 		axios
 			.get(`http://localhost:8000/patientbySSN?SSN=${searchSSN}`)
 			.then((response) => {
@@ -259,7 +263,7 @@ const BookAppointment = () => {
 						<div className='form-group row'>
 							<div className='offset-6 col-6'>
 								<button name='submit' type='submit' className='btn btn-primary'>
-									Add Employee
+									Book Appointment
 								</button>
 							</div>
 						</div>
