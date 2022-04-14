@@ -55,17 +55,14 @@ const Branches = () => {
 									className='box'
 									key={branch.branchID}>
 									<Card.Body>
-										<Card.Title>{branch.branchID}</Card.Title>
+										<Card.Title>{"Branch " + branch.branchID}</Card.Title>
 										<Card.Text>
-											{branch.houseNumber +
-												" " +
-												branch.street +
-												" " +
-												branch.city +
-												", " +
-												branch.province}
+											{branch.houseNumber + " " + branch.street + ", " + branch.city + ", " + branch.province}
 										</Card.Text>
-										<Card.Title>Doctors</Card.Title>
+										<Card.Title>Doctors: </Card.Title>
+										<Card.Text>
+											{dentistsPerBranch.first + " " + dentistsPerBranch.middle + " " + dentistsPerBranch.last}
+										</Card.Text>
 										{console.log(dentistsPerBranch)}
 									</Card.Body>
 								</Card>

@@ -16,8 +16,7 @@ import SignIn from "./components/Authentication/signin";
 import HomePage from "./components/HomePage/homepage";
 import Branches from "./components/Branches/branches";
 import DentistHygienistView from "./components/DentistHygienistView/DentistHygienistView.js";
-
-
+import Procedures from "./components/Procedures/Procedures";
 
 function App() {
 
@@ -38,6 +37,7 @@ function App() {
               List={[
                 { display: "Sign In", path: "/CSI-2132/signin" },
                 { display: "Branches", path: "/CSI-2132/branches" },
+                { display: "Procedures", path: "/CSI-2132/Procedures" },
               ]}
             />
             <HomePage />
@@ -95,6 +95,17 @@ function App() {
             <Branches />
             <Footer />
           </Route>
+
+          <Route exact path="/CSI-2132/Procedures">
+            <Navbar
+              List={[
+                { display: "Home Page", path: "/CSI-2132/" },
+              ]}
+            />
+            <Procedures />
+            <Footer />
+          </Route>
+
 
           <Route exact path="/*">
             <Redirect to={"/CSI-2132/"} />
