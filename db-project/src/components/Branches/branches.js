@@ -61,7 +61,7 @@ const Branches = () => {
 										</Card.Text>
 										<Card.Title>Doctors: </Card.Title>
 										<Card.Text>
-											{dentistsPerBranch.first + " " + dentistsPerBranch.middle + " " + dentistsPerBranch.last}
+											{dentistsPerBranch.dentist + " " + dentistsPerBranch.branchID}
 										</Card.Text>
 										{console.log(dentistsPerBranch)}
 									</Card.Body>
