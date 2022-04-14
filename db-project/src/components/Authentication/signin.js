@@ -43,7 +43,7 @@ const SignIn = () => {
           h.push("/CSI-2132/patient")
         }else if (position === "receptionist"){
           h.push("/CSI-2132/receptionist")
-        }else if (position === "dentist" || position === "hygenist"){
+        }else if (position === "dentist" || position === "hygienist"){
           h.push("/CSI-2132/dentist")
         }
   
