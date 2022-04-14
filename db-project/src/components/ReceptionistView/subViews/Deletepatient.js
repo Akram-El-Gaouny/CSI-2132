@@ -32,6 +32,7 @@ const Deletepatient = () => {
       })
       .then((data) => {
         setSearchData(data);
+        
       })
       .catch((error) => {
         if (error.message === "Request failed with status code 400" ){
@@ -48,8 +49,10 @@ const Deletepatient = () => {
     e.preventDefault();
     
       axios.delete(`http://localhost:8000/deletePatient?SSN=${searchSSN}`).then((response) => {
- 
-          alert("Successfully deleted")
+      if (response.status === 200){
+        alert("Successfully deleted")
+      }
+         
     
       }).catch((error) => alert(error.message))
   }

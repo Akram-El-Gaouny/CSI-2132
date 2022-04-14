@@ -1,15 +1,15 @@
 import React from "react";
 import "./Box.css";
-import { Card } from "react-bootstrap";
+import { Card, Button } from "react-bootstrap";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
 const Branches = () => {
 	const [branches, setBranches] = useState([]);
 	const [dentistsPerBranch, setDentists] = useState([]);
-  const [doneSearch, setDoneSearch] = useState(false);
+	const [doneSearch, setDoneSearch] = useState(false);
 	useEffect(() => {
-    let tmp = []
+		let tmp = [];
 		axios
 			.get(`http://localhost:8000/branches`)
 			.then((response) => {
@@ -27,13 +27,12 @@ const Branches = () => {
 							return response.data.queryResults;
 						})
 						.then((data) => {
-              tmp.push({branchID: br.branchID, dentists : data});
-							setDentists([...tmp])
+							tmp.push({ branchID: br.branchID, dentists: data });
+							setDentists([...tmp]);
 						});
 				});
 
-        setDoneSearch(true);
-
+				setDoneSearch(true);
 			})
 			.catch((error) => {
 				if (error.message === "Request failed with status code 400") {
@@ -43,6 +42,24 @@ const Branches = () => {
 				}
 			});
 	}, []);
+
+	let component = (branch) => {
+		 let object = dentistsPerBranch.filter((d) => d.branchID === branch);
+console.log(object, object.length === 1);
+		 if (object.length === 1) {
+			 let a = "Here's a list of doctors: \n"
+			 object[0].dentists.forEach((d) => {
+				 
+				 a += d.first + " " + d.last + "\n"
+			 })
+			 
+			 alert(a)
+			 return
+		 }
+
+		 alert("No Doctors In this branch")
+
+	};
 
 	return (
 		<div className='Branches'>
@@ -57,13 +74,16 @@ const Branches = () => {
 									<Card.Body>
 										<Card.Title>{"Branch " + branch.branchID}</Card.Title>
 										<Card.Text>
-											{branch.houseNumber + " " + branch.street + ", " + branch.city + ", " + branch.province}
+											{branch.houseNumber +
+												" " +
+												branch.street +
+												", " +
+												branch.city +
+												", " +
+												branch.province}
 										</Card.Text>
-										<Card.Title>Doctors: </Card.Title>
-										<Card.Text>
-											{dentistsPerBranch.dentist + " " + dentistsPerBranch.branchID}
-										</Card.Text>
-										{console.log(dentistsPerBranch)}
+										<Button variant="primary" onClick= {() => component(branch.branchID)}>View Doctors</Button>
+										
 									</Card.Body>
 								</Card>
 						  ))
