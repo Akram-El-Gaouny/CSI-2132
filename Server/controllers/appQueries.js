@@ -549,7 +549,7 @@ export function deletePatient(req, res) {
 			return;
 		}
 
-		res.status(200);
+		res.status(200).json({message: "successful"});
 	});
 }
 
